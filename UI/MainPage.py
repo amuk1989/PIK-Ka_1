@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from Test import SHowMessage
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.chartsTabs = QtWidgets.QTabWidget(self.centralwidget)
-        self.chartsTabs.setGeometry(QtCore.QRect(0, 60, 1024, 571))
+        self.chartsTabs.setGeometry(QtCore.QRect(0, 60, 1027, 571))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(11)
         sizePolicy.setVerticalStretch(0)
@@ -91,7 +91,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.OpenFileButton.sizePolicy().hasHeightForWidth())
         self.OpenFileButton.setSizePolicy(sizePolicy)
         self.OpenFileButton.setLayoutDirection(QtCore.Qt.RightToLeft)
-        self.OpenFileButton.setAutoFillBackground(True)
+        self.OpenFileButton.setAutoFillBackground(False)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("UI/resurces/MainTab/NewFile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.OpenFileButton.setIcon(icon)
@@ -166,6 +166,13 @@ class Ui_MainWindow(object):
         self.helpButton.setIcon(icon6)
         self.helpButton.setObjectName("helpButton")
         self.tabWidget.addTab(self.helpTab, "")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(10, 640, 31, 51))
+        font = QtGui.QFont()
+        font.setFamily("UI/Fonts/Digital7Mono-B1g5.ttf")
+        font.setPointSize(20)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 21))
@@ -177,12 +184,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.chartsTabs.setCurrentIndex(0)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        self.optionsButton.clicked.connect(SHowMessage.Say)
-        self.optionsButton_1.clicked.connect(SHowMessage.Say)
-        self.safeFileButton.clicked.connect(SHowMessage.Say)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -205,3 +208,4 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.chartsTab), _translate("MainWindow", "Графики"))
         self.helpButton.setText(_translate("MainWindow", "Справка"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.helpTab), _translate("MainWindow", "Помощь"))
+        self.label.setText(_translate("MainWindow", "10"))

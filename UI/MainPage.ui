@@ -208,7 +208,7 @@
        <enum>Qt::RightToLeft</enum>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="text">
        <string>Открыть файл</string>
@@ -422,13 +422,14 @@
      <rect>
       <x>10</x>
       <y>640</y>
-      <width>47</width>
+      <width>31</width>
       <height>51</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>7</pointsize>
+      <family>Adobe Heiti Std</family>
+      <pointsize>20</pointsize>
      </font>
     </property>
     <property name="text">

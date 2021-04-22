@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>ПИК-Ка</title>
-    <link rel="stylesheet" href="mainMenuStyle.css">
-    <link rel="stylesheet" href="Fonts.css">
+
+    <link rel="stylesheet" href="Style/mainMenuStyle.css">
+    <link rel="stylesheet" href="style/Fonts.css">
+
+    <script type = "text/javascript" src="Scripts/js/jquery.js"></script>
+    <script>
+        $(function()
+        {
+            $.ajax({
+                url: "Scripts/Test.py",
+                type: "post",
+                datatype: "html",
+                data: "here is data",
+                success: function(response){
+                        $("#div").html(response);
+                        console.log("There is a response");
+                }
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="header">

@@ -2,23 +2,27 @@ import sys
 import threading
 
 from PyQt5 import QtWidgets
-from UI import Events
+from UI import Events, MainPage
+from Test import SHowMessage
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class WindowInicilizer(QtWidgets.QMainWindow):
     def __init__(self,win):
         super().__init__()
         win.setupUi(self)
-        #x = threading.Thread(target=Events.Events, args=(1,), daemon=True)
-        #x.start()
+
+class WindowCreate():
+    def render(page,connect):
+        app = QtWidgets.QApplication(sys.argv)
+        window = WindowInicilizer(page)
+        connect(page)
+        window.show()
+        app.exec_()
 
 
 
 
-def main(page):
-    app = QtWidgets.QApplication(sys.argv)
-    window = WindowInicilizer(page)
 
-    window.show()
-    app.exec_()
+
 

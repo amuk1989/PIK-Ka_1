@@ -1,9 +1,13 @@
-from UI import MainPage
-from Test import SHowMessage
+from UI import MainPage, optionPage
+from UI.Test import Message
+from Inicilizer import WindowInicilizer
 
-class Events(MainPage.Ui_MainWindow):
-    def __init__(self):
-        super().OpenFileButton.clicked.connect(SHowMessage.Say)
+class Connects(MainPage.Ui_MainWindow):
+    def mainPage(page):
+        page.optionsButton.clicked.connect(WindowInicilizer.WindowCreate.render(optionPage.Ui_optionPage(),Connects.optionPage))
+    def optionPage(page):
+        page.OkButton.clicked.connect(Message.Say)
+
 
 #self.optionsButton.clicked.connect(SHowMessage.Say)
 #self.optionsButton_1.clicked.connect(SHowMessage.Say)

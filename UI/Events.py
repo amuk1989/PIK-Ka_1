@@ -1,10 +1,13 @@
-from UI import MainPage, optionPage
+from UI import MainPage
 from UI.Test import Message
-from Inicilizer import WindowInicilizer
 
 class Connects(MainPage.Ui_MainWindow):
+    def __init__(self):
+        pass
+
     def mainPage(page):
-        page.optionsButton.clicked.connect(WindowInicilizer.WindowCreate.render(optionPage.Ui_optionPage(),Connects.optionPage))
+        page.optionsButton.clicked.connect(Message.Say)
+
     def optionPage(page):
         page.OkButton.clicked.connect(Message.Say)
 

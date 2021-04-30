@@ -1,11 +1,5 @@
 import sys
-import threading
-
-from PyQt5 import QtWidgets
-from UI import Events, MainPage
-from Test import SHowMessage
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class WindowInicilizer(QtWidgets.QMainWindow):
     def __init__(self,win):
@@ -13,10 +7,13 @@ class WindowInicilizer(QtWidgets.QMainWindow):
         win.setupUi(self)
 
 class WindowCreate():
+    def __init__(self):
+        pass
+
     def render(page,connect):
         app = QtWidgets.QApplication(sys.argv)
         window = WindowInicilizer(page)
-        connect(page)
+        connect
         window.show()
         app.exec_()
 

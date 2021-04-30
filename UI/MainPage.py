@@ -9,10 +9,6 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QApplication
-from .Test import Message
-from UI import Events
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

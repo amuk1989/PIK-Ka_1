@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="img">
+    <file>SaveFile.png</file>
+    <file>NewFile.png</file>
+    <file>Play.png</file>
+  </qresource>
+</RCC>

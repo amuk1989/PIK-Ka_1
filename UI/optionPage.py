@@ -16,7 +16,7 @@ class Ui_optionPage(object):
         optionPage.setObjectName("optionPage")
         optionPage.resize(495, 358)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resurces/MainTab/Connect.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("UI/resurces/MainTab/Connect.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         optionPage.setWindowIcon(icon)
         optionPage.setStyleSheet("color: rgb(0, 0, 0);\n"
 "font: 87 12pt \"Gilroy\";")

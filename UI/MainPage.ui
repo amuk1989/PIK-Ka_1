@@ -78,6 +78,16 @@
      <attribute name="title">
       <string>Кодовая импульсная посылка</string>
      </attribute>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1021</width>
+        <height>551</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QTabWidget" name="tabWidget">
@@ -160,7 +170,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>4</number>
     </property>
     <property name="iconSize">
      <size>
@@ -214,12 +224,15 @@
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="text">
        <string>Открыть файл</string>
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/NewFile.png</normaloff>resurces/MainTab/NewFile.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/NewFile.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/NewFile.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -254,7 +267,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/SaveFile.png</normaloff>resurces/MainTab/SaveFile.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/SaveFile.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/SaveFile.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -355,7 +368,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/options.png</normaloff>resurces/MainTab/options.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/options.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/options.png</iconset>
       </property>
      </widget>
      <widget class="QCommandLinkButton" name="connectOptionsButton_1">
@@ -372,7 +385,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/Connect.png</normaloff>resurces/MainTab/Connect.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</iconset>
       </property>
      </widget>
     </widget>
@@ -420,6 +433,280 @@
       </property>
      </widget>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>640</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Время срабатывания</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>710</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>мс</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>640</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Мощность
+подситемы &quot;Земля&quot;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignHCenter|Qt::AlignTop</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>710</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>кВт</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>316</x>
+      <y>640</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Частота сигнала
+п/с КРЛ &quot;Земля&quot;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>710</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ГГц</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>640</y>
+      <width>121</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Время
+формирования КИП</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>710</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>мс</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>640</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Колличество КИП</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>640</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Время работы</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="responseTimeLabel">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>670</y>
+      <width>21</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;a_LCDNova&quot;;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="earthPowerLabel">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>670</y>
+      <width>21</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;a_LCDNova&quot;;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="signalFrequencyLabel">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>670</y>
+      <width>21</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;a_LCDNova&quot;;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="createParcelTimeLabel">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>670</y>
+      <width>21</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;a_LCDNova&quot;;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="parcelCountLabel">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>670</y>
+      <width>21</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;a_LCDNova&quot;;</string>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="onTimerLabel">
+    <property name="geometry">
+     <rect>
+      <x>885</x>
+      <y>670</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 20pt &quot;a_LCDNova&quot;;</string>
+    </property>
+    <property name="text">
+     <string>0:0:0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

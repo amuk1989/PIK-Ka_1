@@ -1,18 +1,19 @@
-from models.Enums import ParcelMode
+from Enums import ParcelMode
 
 class parcel(object):
-    __parcel_mode = ParcelMode.programming
-    __detonation_time = 5
+    __parcel_mode = ParcelMode.self_destruct
+    __detonation_time = 2
 
-    parcel_mode = property()
-    detonation_time = property()
+    #parcel_mode = property()
+    #detonation_time = property()
 
-    @parcel_mode.getter
+    @property
     def parcel_mode(self):
         return self.__parcel_mode
 
-    @detonation_time.getter
+    @property
     def detonation_time(self):
+        #print(str(self.__detonation_time))
         return self.__detonation_time
 
     @parcel_mode.setter

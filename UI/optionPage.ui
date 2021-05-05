@@ -87,7 +87,7 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
       <string>Режим работы</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="modeBox">
      <property name="geometry">
       <rect>
        <x>210</x>

@@ -20,7 +20,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.chartsTabs = QtWidgets.QTabWidget(self.centralwidget)
-        self.chartsTabs.setGeometry(QtCore.QRect(0, 60, 1027, 571))
+        self.chartsTabs.setGeometry(QtCore.QRect(0, 65, 1027, 561))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(11)
         sizePolicy.setVerticalStretch(0)
@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
         self.parcelTab = QtWidgets.QWidget()
         self.parcelTab.setObjectName("parcelTab")
         self.graphicsView = QtWidgets.QGraphicsView(self.parcelTab)
-        self.graphicsView.setGeometry(QtCore.QRect(0, 0, 1021, 551))
+        self.graphicsView.setGeometry(QtCore.QRect(2, 2, 1017, 529))
         self.graphicsView.setObjectName("graphicsView")
         self.chartsTabs.addTab(self.parcelTab, "")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -170,7 +170,7 @@ class Ui_MainWindow(object):
         self.helpTab = QtWidgets.QWidget()
         self.helpTab.setObjectName("helpTab")
         self.helpButton = QtWidgets.QCommandLinkButton(self.helpTab)
-        self.helpButton.setGeometry(QtCore.QRect(0, 0, 88, 41))
+        self.helpButton.setGeometry(QtCore.QRect(0, 0, 96, 41))
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap("resurces/MainTab/help.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.helpButton.setIcon(icon7)
@@ -256,7 +256,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.chartsTabs.setCurrentIndex(3)
-        self.tabWidget.setCurrentIndex(4)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -298,4 +298,4 @@ class Ui_MainWindow(object):
         self.signalFrequencyLabel.setText(_translate("MainWindow", "0"))
         self.createParcelTimeLabel.setText(_translate("MainWindow", "0"))
         self.parcelCountLabel.setText(_translate("MainWindow", "0"))
-        self.onTimerLabel.setText(_translate("MainWindow", "00:00:00"))
+        self.onTimerLabel.setText(_translate("MainWindow", "0:0:0"))

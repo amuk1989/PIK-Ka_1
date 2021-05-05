@@ -25,6 +25,8 @@ def render():
     clock_thread = threading.Thread(target=clock.startClock, daemon=True)
     clock_thread.start()
 
+
+
     mainWindow.optionsButton.clicked.connect(options.show)
     mainWindow.optionsButton_1.clicked.connect(options.show)
 

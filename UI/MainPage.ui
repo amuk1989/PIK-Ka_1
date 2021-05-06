@@ -78,13 +78,13 @@
      <attribute name="title">
       <string>Кодовая импульсная посылка</string>
      </attribute>
-     <widget class="QGraphicsView" name="graphicsView">
+     <widget class="QWidget" name="outparcelviewer" native="true">
       <property name="geometry">
        <rect>
-        <x>2</x>
-        <y>2</y>
-        <width>1017</width>
-        <height>529</height>
+        <x>0</x>
+        <y>0</y>
+        <width>1021</width>
+        <height>531</height>
        </rect>
       </property>
      </widget>
@@ -170,7 +170,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <property name="iconSize">
      <size>
@@ -232,7 +232,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/NewFile.png</normaloff>resurces/MainTab/NewFile.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/NewFile.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/NewFile.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -267,7 +267,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/SaveFile.png</normaloff>resurces/MainTab/SaveFile.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/SaveFile.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/SaveFile.png</iconset>
       </property>
       <property name="iconSize">
        <size>
@@ -295,7 +295,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/Play.png</normaloff>resurces/MainTab/Play.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Play.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Play.png</iconset>
       </property>
      </widget>
      <widget class="QCommandLinkButton" name="optionsButton">
@@ -312,7 +312,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/options.png</normaloff>resurces/MainTab/options.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/options.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/options.png</iconset>
       </property>
      </widget>
      <widget class="QCommandLinkButton" name="connectOptionsButton">
@@ -329,7 +329,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/Connect.png</normaloff>resurces/MainTab/Connect.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</iconset>
       </property>
      </widget>
      <widget class="QCommandLinkButton" name="optionsButton_2">
@@ -368,7 +368,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/options.png</normaloff>resurces/MainTab/options.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/options.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/options.png</iconset>
       </property>
      </widget>
      <widget class="QCommandLinkButton" name="connectOptionsButton_1">
@@ -385,7 +385,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/Connect.png</normaloff>resurces/MainTab/Connect.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</iconset>
       </property>
      </widget>
     </widget>
@@ -407,7 +407,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/AddMarker.png</normaloff>resurces/MainTab/AddMarker.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/AddMarker.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/AddMarker.png</iconset>
       </property>
      </widget>
     </widget>
@@ -429,7 +429,7 @@
       </property>
       <property name="icon">
        <iconset>
-        <normaloff>resurces/MainTab/help.png</normaloff>resurces/MainTab/help.png</iconset>
+        <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/help.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/help.png</iconset>
       </property>
      </widget>
     </widget>

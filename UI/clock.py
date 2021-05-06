@@ -1,5 +1,6 @@
 import time
-from Inicilizer import WindowInicilizer
+from UI import WindowInicilizer
+
 
 def startClock():
     now = 0

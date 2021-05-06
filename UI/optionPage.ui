@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>resurces/MainTab/Connect.png</normaloff>resurces/MainTab/Connect.png</iconset>
+    <normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</normaloff>C:/Users/User/.designer/backup/resurces/MainTab/Connect.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">color: rgb(0, 0, 0);
@@ -96,21 +96,6 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
        <height>22</height>
       </rect>
      </property>
-     <item>
-      <property name="text">
-       <string>Режим программирования</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Режим контактного датчика</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Режим самоликвидации</string>
-      </property>
-     </item>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">

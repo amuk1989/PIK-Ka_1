@@ -1,11 +1,14 @@
-from Enums import ParcelMode
 
-class parcel(object):
-    __parcel_mode = ParcelMode.self_destruct
-    __detonation_time = 2
+parcel_modes = [
+    'Режим программирования',
+    'Режим контактного датчика',
+    'Режим самоликвидации',
+]
 
-    #parcel_mode = property()
-    #detonation_time = property()
+class Parcel(object):
+    def __init__(self):
+        self.__parcel_mode = 0
+        self.__detonation_time = 2
 
     @property
     def parcel_mode(self):
@@ -13,7 +16,6 @@ class parcel(object):
 
     @property
     def detonation_time(self):
-        #print(str(self.__detonation_time))
         return self.__detonation_time
 
     @parcel_mode.setter
@@ -23,3 +25,4 @@ class parcel(object):
     @detonation_time.setter
     def detonation_time(self,value):
         self.__detonation_time = value
+

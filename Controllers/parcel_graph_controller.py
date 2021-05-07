@@ -1,12 +1,10 @@
 from PyQt5.QtWidgets import *
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 from PyQt5.QtCore import pyqtSlot
 from matplotlib.figure import Figure
 import random
 import numpy as np
-from Meters.MeterPNA.MeterPNA import MeterPNA
 
 class GraphicsWiget(QWidget):
 
@@ -58,5 +56,3 @@ class GraphicsWiget(QWidget):
         self.canvas.axes.clear()
         self.canvas.axes.plot(x_axis, dataReal)
         self.canvas.draw()
-
-

@@ -5,11 +5,13 @@ from UI import MainPage, optionPage,clock
 from PyQt5 import QtCore, QtGui, QtWidgets
 from models.Parcel_model import parcel_modes
 from main import parсel
+from PyQt5.QtWidgets import *
+
 
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
 
-class WindowInicilizer(QtWidgets.QMainWindow):
+class WindowInicilizer(QtWidgets.QMainWindow, QWidget):
     def __init__(self,win):
         super().__init__()
         win.setupUi(self)
@@ -20,6 +22,7 @@ def render():
 
     window = WindowInicilizer(mainWindow)
     options = WindowInicilizer(optionWindow)
+    #parсel_viewer = mainWindow.outparcelviewer.drawAMP()
 
     window.show()
 
@@ -32,8 +35,7 @@ def render():
 
     mainWindow.optionsButton.clicked.connect(options.show)
     mainWindow.optionsButton_1.clicked.connect(options.show)
-
-    #mainWindow.startButton.clicked.connect()
+    mainWindow.startButton.clicked.connect(mainWindow.parcelWidget.drawAmp)
 
     app.exec_()
 

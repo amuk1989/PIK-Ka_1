@@ -3,7 +3,7 @@ from PyQt5.QtCore import pyqtSlot
 import numpy as np
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from main import parсel
+from models.Parcel_model import Parcel
 
 class GraphicsWiget(QWidget):
     def __init__(self, parent=None):
@@ -19,12 +19,12 @@ class GraphicsWiget(QWidget):
 
     @pyqtSlot()
     def drawAmp(self):
-        data = parсel.signal
-        x_axis = np.linspace(0, len(data), len(data))
-        dataReal = []
-        for i in range(len(data)):
-            dataReal.append(data[i].real)
+        parcel = Parcel()
+        data = parcel.signal
+
+        x_axis = list(data.keys())
+        y_axis = list(data.values())
 
         self.canvas.axes.clear()
-        self.canvas.axes.plot(x_axis, dataReal)
+        self.canvas.axes.plot(x_axis, y_axis)
         self.canvas.draw()

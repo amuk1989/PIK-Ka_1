@@ -4,9 +4,8 @@ import threading
 from UI import MainPage, optionPage,clock
 from PyQt5 import QtCore, QtGui, QtWidgets
 from models.Parcel_model import parcel_modes
-from main import parсel
 from PyQt5.QtWidgets import *
-
+from models.Parcel_model import Parcel
 
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
@@ -18,6 +17,7 @@ class WindowInicilizer(QtWidgets.QMainWindow, QWidget):
 
 def render():
 
+    parcel = Parcel()
     app = QtWidgets.QApplication(sys.argv)
 
     window = WindowInicilizer(mainWindow)
@@ -30,8 +30,8 @@ def render():
     clock_thread.start()
 
     optionWindow.modeBox.addItems(parcel_modes)
-    optionWindow.modeBox.setCurrentIndex(parсel.parcel_mode)
-    optionWindow.timeEdit.setText(str(parсel.detonation_time))
+    optionWindow.modeBox.setCurrentIndex(parcel.parcel_mode)
+    optionWindow.timeEdit.setText(str(parcel.detonation_time))
 
     mainWindow.optionsButton.clicked.connect(options.show)
     mainWindow.optionsButton_1.clicked.connect(options.show)

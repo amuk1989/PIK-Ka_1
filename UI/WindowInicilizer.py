@@ -1,28 +1,30 @@
 import sys
 import threading
+from Controllers.ParcelController import Parcel_controller
 
 from UI import MainPage, optionPage,clock
 from PyQt5 import QtCore, QtGui, QtWidgets
-from models.Parcel_model import parcel_modes
+from models.Parcel_model import parcel_modes, Parcel
 from PyQt5.QtWidgets import *
-from models.Parcel_model import Parcel
 
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
+parcel_controller = Parcel_controller()
 
 class WindowInicilizer(QtWidgets.QMainWindow, QWidget):
     def __init__(self,win):
         super().__init__()
         win.setupUi(self)
 
+
 def render():
 
     parcel = Parcel()
+
     app = QtWidgets.QApplication(sys.argv)
 
     window = WindowInicilizer(mainWindow)
     options = WindowInicilizer(optionWindow)
-    #parсel_viewer = mainWindow.outparcelviewer.drawAMP()
 
     window.show()
 
@@ -33,9 +35,21 @@ def render():
     optionWindow.modeBox.setCurrentIndex(parcel.parcel_mode)
     optionWindow.timeEdit.setText(str(parcel.detonation_time))
 
+    mainWindow.modeBox.addItems(parcel_modes)
+    mainWindow.modeBox.setCurrentIndex(parcel.parcel_mode)
+    mainWindow.timeEdit.setText(str(parcel.detonation_time))
+
     mainWindow.optionsButton.clicked.connect(options.show)
     mainWindow.optionsButton_1.clicked.connect(options.show)
-    mainWindow.startButton.clicked.connect(mainWindow.parcelWidget.drawAmp)
+
+    mainWindow.okButton.clicked.connect(okButton)
+    optionWindow.OkButton.clicked.connect(optionOkButton)
+    optionWindow.OkButton.clicked.connect(options.close)
 
     app.exec_()
 
+def optionOkButton():
+    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),float(optionWindow.timeEdit.text()))
+
+def okButton():
+    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), float(mainWindow.timeEdit.text()))

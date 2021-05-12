@@ -1,7 +1,7 @@
-from __future__ import annotations
-from abc import ABC, abstractmethod
+#from __future__ import annotations
+from models.AbstractParcel import AbstractParcelObserver,AbstractParcel
 from typing import List
-
+from models.singelton import singleton
 
 parcel_modes = [
     'Режим программирования',
@@ -9,39 +9,15 @@ parcel_modes = [
     'Режим самоликвидации',
 ]
 
-def singleton(cls):
-    instances = {}
-    def getinstance():
-        if cls not in instances:
-            instances[cls] = cls()
-        return instances[cls]
-    return getinstance
-
-class AbstractParcel(ABC):
-    @abstractmethod
-    def attach(self, observer: AbstractParcelObserver):
-        pass
-    @abstractmethod
-    def detach(self, observer: AbstractParcelObserver):
-        pass
-    @abstractmethod
-    def notify(self):
-        pass
-
-class AbstractParcelObserver(ABC):
-    @abstractmethod
-    def update(self, subject: AbstractParcel):
-        pass
-
 @singleton
 class Parcel(AbstractParcel):
-    __detonation_time = 2
-    __parcel_mode = 2
+    _observers: List[AbstractParcelObserver] = []
+    def __init__(self):
+        self.__detonation_time: float = 1
+        self.__parcel_mode: int = 0
 
-    observers: List[AbstractParcelObserver] = []
-
-    @property
-    def signal(self):
+    #@property
+    def set_graph(self):
         return self.__signal
 
     @property
@@ -62,10 +38,6 @@ class Parcel(AbstractParcel):
     def detonation_time(self,value):
         self.__detonation_time = value
         self.__create_signal()
-        self.notify()
-
-    def __init__(self):
-        self.__create_signal()
 
     def attach(self, observer: AbstractParcelObserver):
         self._observers.append(observer)
@@ -74,15 +46,15 @@ class Parcel(AbstractParcel):
         self._observers.remove(observer)
 
     def notify(self):
-        for observer in self.observers:
-            observer.update()
+        if len(self._observers) > 0:
+            for observer in self._observers:
+                observer.update(self)
 
     def __create_signal(self):
         time = self.detonation_time*1000/4096
-        print(int(self.detonation_time))
         value ={
-                49999:0,
-                50000:0,
+                49999:0, #1
+                50000:0, #2
                 50000.001:5,
                 50000.25:5,
                 50000.25:0,
@@ -90,12 +62,14 @@ class Parcel(AbstractParcel):
                 50200.001:5,
                 50200.25:5,
                 50200.25:0,
-                50200+(time):0,
-                50200+(time)+0.25:0,
+                50200 + (time): 0,
+                50200.001 + (time): 5,
+                50200.25 + (time): 5,
+                50200.25 + (time): 0,
+                50400 + (time): 0,
+                50400.001 + (time): 5,
+                50400.25 + (time): 5,
+                50400.25 + (time): 0,
                 }
         self.__signal = value
         self.notify()
-
-class ParcelObserver(AbstractParcelObserver):
-    def update(self, subject: AbstractParcel):
-        mainWindow.parcelWidget.drawAmp

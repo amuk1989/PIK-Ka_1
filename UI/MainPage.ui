@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1024</width>
-    <height>768</height>
+    <height>833</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -44,6 +44,9 @@
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
     </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
     <property name="tabPosition">
      <enum>QTabWidget::South</enum>
     </property>
@@ -51,7 +54,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -443,7 +446,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>640</y>
+      <y>700</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -456,7 +459,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>710</y>
+      <y>770</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -472,7 +475,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>640</y>
+      <y>700</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -489,7 +492,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>710</y>
+      <y>770</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -505,7 +508,7 @@
     <property name="geometry">
      <rect>
       <x>316</x>
-      <y>640</y>
+      <y>700</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -522,7 +525,7 @@
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>710</y>
+      <y>770</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -538,7 +541,7 @@
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>640</y>
+      <y>700</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -555,7 +558,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>710</y>
+      <y>770</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -571,7 +574,7 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>640</y>
+      <y>700</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -587,7 +590,7 @@
     <property name="geometry">
      <rect>
       <x>890</x>
-      <y>640</y>
+      <y>700</y>
       <width>101</width>
       <height>31</height>
      </rect>
@@ -603,7 +606,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>670</y>
+      <y>730</y>
       <width>21</width>
       <height>41</height>
      </rect>
@@ -622,7 +625,7 @@
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>670</y>
+      <y>730</y>
       <width>21</width>
       <height>41</height>
      </rect>
@@ -641,7 +644,7 @@
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>670</y>
+      <y>730</y>
       <width>21</width>
       <height>41</height>
      </rect>
@@ -660,7 +663,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>670</y>
+      <y>730</y>
       <width>21</width>
       <height>41</height>
      </rect>
@@ -679,7 +682,7 @@
     <property name="geometry">
      <rect>
       <x>660</x>
-      <y>670</y>
+      <y>730</y>
       <width>21</width>
       <height>41</height>
      </rect>
@@ -698,7 +701,7 @@
     <property name="geometry">
      <rect>
       <x>885</x>
-      <y>670</y>
+      <y>730</y>
       <width>111</width>
       <height>41</height>
      </rect>
@@ -712,6 +715,58 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>630</y>
+      <width>1021</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Быстрый доступ</string>
+    </property>
+    <widget class="QLineEdit" name="timeEdit">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>30</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="text">
+      <string>2</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="modeBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>251</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="okButton">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>30</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Ok</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

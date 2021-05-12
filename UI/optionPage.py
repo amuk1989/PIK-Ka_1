@@ -97,7 +97,7 @@ class Ui_optionPage(object):
         self.parcelBox.setTitle(_translate("optionPage", "Борт"))
         self.label_2.setText(_translate("optionPage", "Режим работы"))
         self.label_3.setText(_translate("optionPage", "Время подрыва, мс"))
-        self.timeEdit.setText(_translate("optionPage", "5"))
+        self.timeEdit.setText(_translate("optionPage", "2"))
         self.OkButton.setText(_translate("optionPage", "Ok"))
         self.applyButton.setText(_translate("optionPage", "Принять"))
         self.cancelButton.setText(_translate("optionPage", "Отмена"))

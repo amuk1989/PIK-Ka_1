@@ -18,9 +18,9 @@ class GraphicsWiget(QWidget):
         self.setLayout(vertical_layout)
 
     @pyqtSlot()
-    def drawAmp(self):
-        parcel = Parcel()
-        data = parcel.signal
+    def drawAmp(self, graph):
+        parcel = object
+        data = graph
 
         x_axis = list(data.keys())
         y_axis = list(data.values())

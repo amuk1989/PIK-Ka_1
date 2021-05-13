@@ -70,6 +70,7 @@ class Parcel(AbstractParcel):
                 50400.001 + (time): 5,
                 50400.25 + (time): 5,
                 50400.25 + (time): 0,
+                50401.25 + (time): 0,
                 }
         self.__signal = value
         self.notify()

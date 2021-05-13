@@ -9,6 +9,11 @@ class Parcel_controller(object):
         print(self.parcel)
         self.parcel.attach(self.parcel_observer)
 
-    def edit_parcel(self, parcel_mode_index, detonation_time):
-        self.parcel.detonation_time = detonation_time
-        self.parcel.parcel_mode = parcel_mode_index
+    def edit_parcel(self, parcel_mode_index, detonation_time: str):
+
+        try:
+            self.parcel.detonation_time = float(detonation_time)
+            self.parcel.parcel_mode = parcel_mode_index
+        except ValueError:
+            print('error')
+            

@@ -17,11 +17,6 @@ class AbstractParcel(ABC):
     def set_graph(self):
         pass
 
-    @property
-    @abstractmethod
-    def detonation_time(self):
-        pass
-
 class AbstractParcelObserver(ABC):
     @abstractmethod
     def update(self, subject: AbstractParcel):

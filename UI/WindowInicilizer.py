@@ -1,6 +1,7 @@
 import sys
 import threading
 from Controllers.ParcelController import Parcel_controller
+from Controllers.InputSignalController import inputSignalController
 
 from UI import MainPage, optionPage,clock
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -10,6 +11,7 @@ from PyQt5.QtWidgets import *
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
 parcel_controller = Parcel_controller()
+input_signal_controller = inputSignalController()
 
 class WindowInicilizer(QtWidgets.QMainWindow, QWidget):
     def __init__(self,win):
@@ -41,15 +43,20 @@ def render():
 
     mainWindow.optionsButton.clicked.connect(options.show)
     mainWindow.optionsButton_1.clicked.connect(options.show)
-
     mainWindow.okButton.clicked.connect(okButton)
+    mainWindow.startButton.clicked.connect(startButton)
+
     optionWindow.OkButton.clicked.connect(optionOkButton)
     optionWindow.OkButton.clicked.connect(options.close)
-
+    okButton()
+    startButton()
     app.exec_()
 
 def optionOkButton():
-    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),float(optionWindow.timeEdit.text()))
+    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.text())
 
 def okButton():
-    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), float(mainWindow.timeEdit.text()))
+    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), mainWindow.timeEdit.text())
+
+def startButton():
+    input_signal_controller.set_signal()

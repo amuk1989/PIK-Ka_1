@@ -1,9 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSlot
-import numpy as np
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from models.Parcel_model import Parcel
 
 class GraphicsWiget(QWidget):
     def __init__(self, parent=None):

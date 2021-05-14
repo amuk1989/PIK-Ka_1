@@ -16,4 +16,3 @@ class Parcel_controller(object):
             self.parcel.parcel_mode = parcel_mode_index
         except ValueError:
             print('error')
-            

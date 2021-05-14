@@ -2,6 +2,7 @@
 from models.AbstractParcel import AbstractParcelObserver,AbstractParcel
 from typing import List
 from models.singelton import singleton
+from models.MarkerModel import marker_model
 
 parcel_modes = [
     'Режим программирования',
@@ -12,6 +13,8 @@ parcel_modes = [
 @singleton
 class Parcel(AbstractParcel):
     _observers: List[AbstractParcelObserver] = []
+    __markers: List[marker_model] = []
+
     def __init__(self):
         self.__detonation_time: float = 1
         self.__parcel_mode: int = 0
@@ -44,6 +47,12 @@ class Parcel(AbstractParcel):
 
     def detach(self, observer: AbstractParcelObserver):
         self._observers.remove(observer)
+
+    def add_marker(self, marker: marker_model):
+        self.__markers.append(marker)
+
+    def get_markers(self):
+        return self.__markers
 
     def notify(self):
         if len(self._observers) > 0:

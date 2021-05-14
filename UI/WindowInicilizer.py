@@ -46,8 +46,11 @@ def render():
     mainWindow.okButton.clicked.connect(okButton)
     mainWindow.startButton.clicked.connect(startButton)
 
+    #mainWindow.FRWidget.mouseMoveEvent()
+
     optionWindow.OkButton.clicked.connect(optionOkButton)
     optionWindow.OkButton.clicked.connect(options.close)
+
     okButton()
     startButton()
     app.exec_()

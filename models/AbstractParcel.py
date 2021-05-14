@@ -1,5 +1,6 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from models.MarkerModel import marker_model
 
 class AbstractParcel(ABC):
     @abstractmethod
@@ -10,6 +11,14 @@ class AbstractParcel(ABC):
         pass
     @abstractmethod
     def notify(self):
+        pass
+
+    @abstractmethod
+    def add_marker(self, marker: marker_model):
+        pass
+
+    @abstractmethod
+    def get_markers(self):
         pass
 
     @property

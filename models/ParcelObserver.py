@@ -2,7 +2,6 @@ from models.AbstractParcel import AbstractParcelObserver,AbstractParcel
 
 class ParcelObserver(AbstractParcelObserver):
     def update(self, subject: AbstractParcel):
-        print(subject)
         from UI.WindowInicilizer import mainWindow,optionWindow
 
         mainWindow.parcelWidget.drawAmp(subject.set_graph(),subject.get_markers())

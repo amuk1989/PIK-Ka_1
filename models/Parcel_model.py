@@ -14,10 +14,11 @@ parcel_modes = [
 class Parcel(AbstractParcel):
     _observers: List[AbstractParcelObserver] = []
     __markers: List[marker_model] = []
+    __detonation_time: float = 1
+    _parcel_mode: int = 0
 
     def __init__(self):
-        self.__detonation_time: float = 1
-        self.__parcel_mode: int = 0
+        pass
 
     #@property
     def set_graph(self):
@@ -25,7 +26,7 @@ class Parcel(AbstractParcel):
 
     @property
     def parcel_mode(self):
-        return self.__parcel_mode
+        return self._parcel_mode
 
     @property
     def detonation_time(self):
@@ -33,14 +34,13 @@ class Parcel(AbstractParcel):
 
     @parcel_mode.setter
     def parcel_mode(self,value):
-        self.__parcel_mode = value
+        self._parcel_mode = value
         if parcel_modes[value] == 'Режим самоликвидации':
             self.detonation_time = 14000
 
     @detonation_time.setter
     def detonation_time(self,value):
         self.__detonation_time = value
-        self.__create_signal()
 
     def attach(self, observer: AbstractParcelObserver):
         self._observers.append(observer)
@@ -59,7 +59,7 @@ class Parcel(AbstractParcel):
             for observer in self._observers:
                 observer.update(self)
 
-    def __create_signal(self):
+    def create_signal(self):
         time = self.detonation_time*1000/4096
         value ={
                 49999:0, #1

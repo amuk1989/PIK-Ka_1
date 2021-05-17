@@ -4,7 +4,7 @@ class ParcelObserver(AbstractParcelObserver):
     def update(self, subject: AbstractParcel):
         from UI.WindowInicilizer import mainWindow,optionWindow
 
-        mainWindow.parcelWidget.drawAmp(subject.set_graph(),subject.get_markers())
+        mainWindow.parcelWidget.drawAmp(subject)
 
         mainWindow.timeEdit.setText(str(subject.detonation_time))
         optionWindow.timeEdit.setText(str(subject.detonation_time))

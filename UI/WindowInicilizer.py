@@ -2,11 +2,13 @@ import sys
 import threading
 from Controllers.ParcelController import Parcel_controller
 from Controllers.InputSignalController import inputSignalController
-
+from Controllers.GUIController import GUIController
 from UI import MainPage, optionPage,clock
 from PyQt5 import QtCore, QtGui, QtWidgets
 from models.Parcel_model import parcel_modes, Parcel
 from PyQt5.QtWidgets import *
+
+GUI_controller: GUIController
 
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
@@ -46,7 +48,7 @@ def render():
     mainWindow.okButton.clicked.connect(okButton)
     mainWindow.startButton.clicked.connect(startButton)
 
-    #mainWindow.FRWidget.mouseMoveEvent()
+    GUI_controller = GUIController(mainWindow.FRWidget)
 
     optionWindow.OkButton.clicked.connect(optionOkButton)
     optionWindow.OkButton.clicked.connect(options.close)

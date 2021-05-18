@@ -1,19 +1,29 @@
 class marker_model(object):
     #region private variables
-    __marker_index: int
+    __x: float
+    __y: float
     #endregion
 
     #region properties
-    def get_marker_index(self):
-        return self.__marker_index
+    def get_x(self):
+        return self.__x
 
-    def set_marker_index(self, value):
-        self.__marker_index = value
+    def set_x(self, value):
+        self.__x = value
 
-    marker_index = property(get_marker_index,set_marker_index, doc='marker index')
+    x = property(get_x,set_x, doc='marker x')
+
+    def get_y(self):
+        return self.__y
+
+    def set_y(self, value):
+        self.__y = value
+
+    y = property(get_y,set_y, doc='marker y')
     #endregion
 
     #region Methods
     def __init__(self):
-        self.__marker_index = None
+        self.__x = None
+        self.__y = None
     #endregion

@@ -17,13 +17,14 @@ class AbstractParcel(ABC):
     def add_marker(self, marker: marker_model):
         pass
 
+    @property
     @abstractmethod
     def get_markers(self):
         pass
 
     @property
     @abstractmethod
-    def set_graph(self):
+    def get_graph(self):
         pass
 
 class AbstractParcelObserver(ABC):

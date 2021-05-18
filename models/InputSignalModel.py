@@ -15,7 +15,7 @@ class InputSignalModel(AbstractParcel):
     #region properties
 
     #region getters
-    def set_graph(self):
+    def get_graph(self):
         return self.__signal
     #endregion
 
@@ -35,6 +35,7 @@ class InputSignalModel(AbstractParcel):
         self._observers.remove(observer)
 
     def add_marker(self, marker: marker_model):
+        print(f'add marker {marker}')
         self.__markers.append(marker)
         self.notify()
 

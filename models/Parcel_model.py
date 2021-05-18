@@ -21,7 +21,7 @@ class Parcel(AbstractParcel):
         pass
 
     #@property
-    def set_graph(self):
+    def get_graph(self):
         return self.__signal
 
     @property
@@ -49,6 +49,7 @@ class Parcel(AbstractParcel):
         self._observers.remove(observer)
 
     def add_marker(self, marker: marker_model):
+        print(f'add marker parcel {marker}')
         self.__markers.append(marker)
 
     def get_markers(self):

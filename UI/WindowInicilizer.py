@@ -37,11 +37,11 @@ def render():
 
     optionWindow.modeBox.addItems(parcel_modes)
     optionWindow.modeBox.setCurrentIndex(parcel.parcel_mode)
-    optionWindow.timeEdit.setText(str(parcel.detonation_time))
+    optionWindow.timeEdit.value = (parcel.detonation_time)
 
     mainWindow.modeBox.addItems(parcel_modes)
     mainWindow.modeBox.setCurrentIndex(parcel.parcel_mode)
-    mainWindow.timeEdit.setText(str(parcel.detonation_time))
+    mainWindow.timeEdit.value = (parcel.detonation_time)
 
     mainWindow.optionsButton.clicked.connect(options.show)
     mainWindow.optionsButton_1.clicked.connect(options.show)
@@ -58,10 +58,10 @@ def render():
     app.exec_()
 
 def optionOkButton():
-    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.text(),optionWindow.pulseDurationBox.currentText())
+    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.value(),optionWindow.pulseDurationBox.currentText())
 
 def okButton():
-    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), mainWindow.timeEdit.text(),optionWindow.pulseDurationBox.currentText())
+    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), mainWindow.timeEdit.value,optionWindow.pulseDurationBox.currentText())
 
 def startButton():
     input_signal_controller.set_signal()

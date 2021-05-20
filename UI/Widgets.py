@@ -6,6 +6,7 @@ from models.MarkerModel import marker_model
 from typing import List
 from Controllers.ParcelController import Parcel_controller
 from Controllers.InputSignalController import inputSignalController
+from floatMethods import equal
 import numpy as np
 import math
 
@@ -36,28 +37,32 @@ class GraphicsWiget(QWidget):
         self.canvas.mpl_connect('button_press_event', self.mouse_click)
 
     @pyqtSlot()
-    def drawAmp(self, data:dict, markers :marker_model = []):
+    def drawAmp(self, data:dict, legend_mask: str = 'Маркер №, X, Y', markers: marker_model = []):
         flag = False
-
-        self.__markers_y.clear()
-        self.__markers_x.clear()
-        self.__markers_legend.clear()
+        self.mask = legend_mask.split(', ')
 
         self.__x_axis = list(data.keys())
         self.__y_axis = list(data.values())
 
         for i in range(0, len(markers)):
-            if not self.__x_axis.count(markers[i].x) or not self.__y_axis.count(markers[i].y):
+            if not equal(self.__x_axis, markers[i].x, 2) or not equal(self.__y_axis, markers[i].y, 2):
                 markers[i] = self.find_marker(math.inf, markers[i].x)
                 flag = True
 
         if flag:
             self.input_signal_controller.insert_marker(self.objectName(), i, markers)
 
+        self.__markers_y.clear()
+        self.__markers_x.clear()
+        self.__markers_legend.clear()
+
         for i in range(0, len(markers)):
             self.__markers_x.append(markers[i].x)
             self.__markers_y.append(markers[i].y)
             self.__markers_legend.append(markers[i].legend)
+
+        self.min_y = np.amin(self.__y_axis)
+        self.min_x = np.amin(self.__x_axis)
         self.update()
 
     def update(self):
@@ -70,12 +75,7 @@ class GraphicsWiget(QWidget):
         self.canvas.axes.scatter(self.__markers_x, self.__markers_y)
 
         for i in range(0,len(self.__markers_x)):
-            self.canvas.axes.annotate(self.__markers_legend[i],
-                                        xy=(self.__markers_x[i], self.__markers_y[i]), xycoords='data',
-                                        xytext=(-60, 30), textcoords='offset points',
-                                        bbox=dict(boxstyle="round", fc="0.8"),
-                                        arrowprops=dict(arrowstyle="->",
-                                        connectionstyle="angle,angleA=0,angleB=90,rad=10"))
+            self.__marker_draw(self.__markers_x[i], self.__markers_y[i])
         self.canvas.draw()
 
     def mouse_move(self,event):
@@ -83,8 +83,6 @@ class GraphicsWiget(QWidget):
         x, y = event.x, event.y
         if event.inaxes:
             ax = event.inaxes  # the axes instance
-            #self.__mousePos_x = event.xdata
-            #self.__mousePos_y = event.ydata
             self.__focus_marker = self.find_marker(1, event.xdata, event.ydata)
             self.update()
 
@@ -115,3 +113,24 @@ class GraphicsWiget(QWidget):
             return marker
         else:
             return None
+
+    def __marker_draw(self, marker_x: float, marker_y: float):
+        self.canvas.axes.plot([marker_x, self.min_x], [marker_y, marker_y],
+                              color='black', dashes=[6, 4], linewidth=0.5)
+
+        self.canvas.axes.annotate(f'{self.mask[0]} \n{self.mask[2]}:{round(marker_y, 2)}',
+                                  xy=(self.min_x, marker_y), xycoords='data',
+                                  xytext=(-110,0), textcoords='offset points',
+                                  bbox=dict(boxstyle="round", fc="0.8"),
+                                  arrowprops=dict(arrowstyle="->",
+                                  connectionstyle="angle,angleA=0,angleB=90,rad=10"))
+
+        self.canvas.axes.plot([marker_x, marker_x], [marker_y, self.min_y],
+                              color='black', dashes=[6, 4], linewidth=0.5)
+
+        self.canvas.axes.annotate(f'{self.mask[0]} \n{self.mask[1]}:{round(marker_x, 2)}',
+                                    xy=(marker_x, self.min_y), xycoords='data',
+                                    xytext=(0, -45), textcoords='offset points',
+                                    bbox=dict(boxstyle="round", fc="0.8"),
+                                    arrowprops=dict(arrowstyle="->",
+                                    connectionstyle="angle,angleA=0,angleB=90,rad=10"))

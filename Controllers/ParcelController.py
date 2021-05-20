@@ -10,14 +10,14 @@ class Parcel_controller(object):
         self.parcel = Parcel()
         self.parcel.attach(self.parcel_observer)
 
-    def edit_parcel(self, parcel_mode_index: int, detonation_time: str, pulse_duration: str):
+    def edit_parcel(self, parcel_mode_index: int, detonation_time: float, pulse_duration: str):
         try:
-            time = float(detonation_time)
-            if time<0.1:
-                time = 0.1
-            if time>14000:
-                time = 14000
-            self.parcel.detonation_time = time
+            #time = float(detonation_time)
+            #if time<0.1:
+            #    time = 0.1
+            #if time>14000:
+            #    time = 14000
+            self.parcel.detonation_time = detonation_time
             self.parcel.parcel_mode = parcel_mode_index
             self.parcel.create_signal()
             self.parcel.signal_duration = int(pulse_duration)

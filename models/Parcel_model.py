@@ -25,6 +25,9 @@ class Parcel(AbstractParcel):
     def get_graph(self):
         return self.__signal
 
+    def get_mask(self):
+        return 'Маркер №, X, Y'
+
     @property
     def parcel_mode(self):
         return self._parcel_mode

@@ -18,11 +18,10 @@ class InputSignalModel(AbstractParcel):
     #region getters
     def get_graph(self):
         return self.__signal
+    def get_mask(self):
+        return 'Маркер №, A, Ч'
     #endregion
 
-    #region setters
-
-    #endregion
     #endregion
 
     #region Methods
@@ -53,7 +52,7 @@ class InputSignalModel(AbstractParcel):
 
     def create_signal(self):
         k = randint(1, 3)/10
-        self.__signal = {i*k: sin(i*k) for i in range(501)}
+        self.__signal = {i*k: round(sin(i*k), 2) for i in range(501)}
         self.notify()
 
     #endregion

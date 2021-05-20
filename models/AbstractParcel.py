@@ -27,6 +27,11 @@ class AbstractParcel(ABC):
     def get_graph(self):
         pass
 
+    @property
+    @abstractmethod
+    def get_mask(self):
+        pass
+
 class AbstractParcelObserver(ABC):
     @abstractmethod
     def update(self, subject: AbstractParcel):

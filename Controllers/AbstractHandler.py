@@ -8,7 +8,10 @@ class Handler(ABC):
         pass
 
     @abstractmethod
-    def handle(self, request) -> Optional[bool]:
+    def add_marker(self, request) -> Optional[bool]:
+        pass
+    @abstractmethod
+    def insert_marker(self, request)  -> Optional[bool]:
         pass
 
 class AbstractHandler(Handler):
@@ -19,7 +22,13 @@ class AbstractHandler(Handler):
         return handler
 
     @abstractmethod
-    def handle(self, request: Any, marker) -> bool:
+    def add_marker(self, request: Any, marker) -> bool:
         if self._next_handler:
-            return self._next_handler.handle(request, marker)
+            return self._next_handler.add_marker(request, marker)
+        return None
+
+    @abstractmethod
+    def insert_marker(self, request: Any, marker) -> bool:
+        if self._next_handler:
+            return self._next_handler.insert_marker(request, marker)
         return None

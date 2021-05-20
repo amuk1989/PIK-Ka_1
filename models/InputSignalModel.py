@@ -3,6 +3,7 @@ from typing import List
 from models.singelton import singleton
 from math import sin
 from models.MarkerModel import marker_model
+from random import randint
 
 @singleton
 class InputSignalModel(AbstractParcel):
@@ -35,12 +36,15 @@ class InputSignalModel(AbstractParcel):
         self._observers.remove(observer)
 
     def add_marker(self, marker: marker_model):
-        print(f'add marker {marker}')
         self.__markers.append(marker)
         self.notify()
 
     def get_markers(self):
         return self.__markers
+
+    def insert_marker(self, i: int, markers: List[marker_model]):
+        self.__markers = markers
+        self.notify()
 
     def notify(self):
         if len(self._observers) > 0:
@@ -48,7 +52,8 @@ class InputSignalModel(AbstractParcel):
                 observer.update(self)
 
     def create_signal(self):
-        self.__signal = {i*0.1: sin(i*0.1) for i in range(501)}
+        k = randint(1, 3)/10
+        self.__signal = {i*k: sin(i*k) for i in range(501)}
         self.notify()
 
     #endregion

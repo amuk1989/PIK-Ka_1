@@ -58,10 +58,10 @@ def render():
     app.exec_()
 
 def optionOkButton():
-    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.text())
+    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.text(),optionWindow.pulseDurationBox.currentText())
 
 def okButton():
-    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), mainWindow.timeEdit.text())
+    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), mainWindow.timeEdit.text(),optionWindow.pulseDurationBox.currentText())
 
 def startButton():
     input_signal_controller.set_signal()

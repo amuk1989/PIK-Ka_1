@@ -9,4 +9,3 @@ def startClock():
         now += 1
         clock = time.localtime(now)
         WindowInicilizer.mainWindow.onTimerLabel.setText(f'{clock.tm_hour - 7} : {clock.tm_min} : {clock.tm_sec}')
-

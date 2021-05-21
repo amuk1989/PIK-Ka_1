@@ -20,7 +20,6 @@ class WindowInicilizer(QtWidgets.QMainWindow, QWidget):
         super().__init__()
         win.setupUi(self)
 
-
 def render():
 
     parcel = Parcel()
@@ -52,16 +51,20 @@ def render():
 
     optionWindow.OkButton.clicked.connect(optionOkButton)
     optionWindow.OkButton.clicked.connect(options.close)
+    #mainWindow.timeEdit.valueChanged.connect()
+
 
     okButton()
     startButton()
     app.exec_()
 
 def optionOkButton():
-    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.value(),optionWindow.pulseDurationBox.currentText())
+    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.value,optionWindow.pulseDurationBox.currentText())
 
 def okButton():
+    print(mainWindow.timeEdit.value)
     parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), mainWindow.timeEdit.value,optionWindow.pulseDurationBox.currentText())
+
 
 def startButton():
     input_signal_controller.set_signal()

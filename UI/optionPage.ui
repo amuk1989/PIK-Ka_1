@@ -46,7 +46,7 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
     <widget class="QDoubleSpinBox" name="maxPowerBox">
      <property name="geometry">
       <rect>
-       <x>300</x>
+       <x>200</x>
        <y>20</y>
        <width>62</width>
        <height>22</height>
@@ -68,7 +68,7 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
     <widget class="QDoubleSpinBox" name="minPowerBox">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>300</x>
        <y>20</y>
        <width>62</width>
        <height>22</height>
@@ -115,7 +115,7 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>300</x>
        <y>50</y>
        <width>61</width>
        <height>13</height>
@@ -128,7 +128,7 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>300</x>
+       <x>200</x>
        <y>50</y>
        <width>47</width>
        <height>13</height>
@@ -173,6 +173,13 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
       <string>Шаг</string>
      </property>
     </widget>
+    <zorder>maxPowerBox</zorder>
+    <zorder>label_5</zorder>
+    <zorder>label</zorder>
+    <zorder>label_6</zorder>
+    <zorder>stepPowerBox</zorder>
+    <zorder>label_7</zorder>
+    <zorder>minPowerBox</zorder>
    </widget>
    <widget class="QPushButton" name="OkButton">
     <property name="geometry">

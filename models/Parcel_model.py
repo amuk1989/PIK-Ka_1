@@ -14,7 +14,7 @@ parcel_modes = [
 class Parcel(AbstractParcel):
     _observers: List[AbstractParcelObserver] = []
     __markers: List[marker_model] = []
-    __detonation_time: float = 1
+    __detonation_time: float = 0.1
     _parcel_mode: int = 0
     __signal_duration: int = 200
 

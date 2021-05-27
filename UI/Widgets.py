@@ -1,5 +1,6 @@
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSlot
+from matplotlib.backend_bases import MouseButton
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from models.MarkerModel import marker_model
@@ -9,6 +10,7 @@ from Controllers.InputSignalController import inputSignalController
 from floatMethods import equal
 import numpy as np
 import math
+import sys
 
 class GraphicsWiget(QWidget):
     input_signal_controller = inputSignalController()
@@ -16,23 +18,23 @@ class GraphicsWiget(QWidget):
     __markers_x: List[float]
     __markers_y: List[float]
     __markers_legend: List[str]
-    __zoom:float
 
     def __init__(self, parent=None):
         self.input_signal_controller.set_next(self.parcel_controller)
 
         QWidget.__init__(self, parent)
 
-        self.canvas = FigureCanvas(Figure())
         self.__focus_marker = marker_model()
         self.__markers_x = []
         self.__markers_y = []
         self.__markers_legend = []
-        self.__zoom = 0
         self.__right_lim: float = None
 
+        self.canvas = FigureCanvas(Figure())
         vertical_layout = QVBoxLayout()
         vertical_layout.addWidget(self.canvas)
+
+        self.createContextMenu()
 
         self.canvas.axes = self.canvas.figure.add_subplot(111)
         self.setLayout(vertical_layout)
@@ -40,8 +42,9 @@ class GraphicsWiget(QWidget):
         self.canvas.mpl_connect('motion_notify_event', self.mouse_move)
         self.canvas.mpl_connect('button_press_event', self.mouse_click)
         self.canvas.mpl_connect('scroll_event', self.mouse_scroll)
+        self.canvas.mpl_connect('key_release_event', self.on_press)
 
-    @pyqtSlot()
+    #@pyqtSlot()
     def drawAmp(self, data:dict, legend_mask: str = 'Маркер №, X, Y', markers: marker_model = []):
 
         flag = False
@@ -105,19 +108,22 @@ class GraphicsWiget(QWidget):
     def mouse_click(self, event):
         x, y = event.x, event.y
         if event.inaxes:
-            ax = event.inaxes  # the axes instance
-            if self.__focus_marker != None:
-                self.input_signal_controller.add_marker(self.objectName(),self.__focus_marker)
+            if event.button is MouseButton.LEFT:
+                ax = event.inaxes  # the axes instance
+                if self.__focus_marker != None:
+                    self.input_signal_controller.add_marker(self.objectName(),self.__focus_marker)
+            elif event.button is MouseButton.RIGHT:
+                pass
 
     def mouse_scroll(self,event):
         if event.inaxes:
             x, y = event.xdata, event.ydata
             left, right = self.size_canvas(x,y,self.__right_lim,self.max_y,self.__left_lim,self.min_y)
 
-            if self.__left_lim >= 0:
+            if self.__left_lim >= self.min_x:
                 self.__left_lim += event.step*left
             else:
-                self.__left_lim = 0
+                self.__left_lim = self.min_x
 
             if self.__right_lim <= self.max_x:
                 self.__right_lim += event.step*right
@@ -126,8 +132,30 @@ class GraphicsWiget(QWidget):
 
             self.update()
 
+    def on_press(self, event):
+        print('press', event.key)
+        sys.stdout.flush()
+        print('x')
+        if event.key == ' ':
+            print('x')
+
     #endregion
 
+    def createContextMenu(self):
+        self.setContextMenuPolicy(Qt.ActionsContextMenu)
+        self.create_actions('Удалить маркер', self.delete_marker)
+
+    def create_actions(self, name: str, event: object):
+        newAction = QAction(name, self)
+        self.addAction(newAction)
+        newAction.triggered.connect(event)
+
+    def test_acton(self):
+        print('ttt')
+
+    def delete_marker(self):
+        if self.__focus_marker != None:
+            self.input_signal_controller.delete_marker(self.objectName(), self.__focus_marker)
 
     def find_marker(self, trap_size: float, x_pos:float,y_pos: float = None) -> marker_model:
         marker = marker_model()
@@ -148,11 +176,11 @@ class GraphicsWiget(QWidget):
             return None
 
     def __marker_draw(self, marker_x: float, marker_y: float):
-        self.canvas.axes.plot([marker_x, self.min_x + self.__left_lim], [marker_y, marker_y],
+        self.canvas.axes.plot([marker_x, self.__left_lim], [marker_y, marker_y],
                               color='black', dashes=[6, 4], linewidth=0.5)
 
         self.canvas.axes.annotate(f'{self.mask[0]} \n{self.mask[2]}:{round(marker_y, 2)}',
-                                  xy=(self.min_x + self.__left_lim, marker_y), xycoords='data',
+                                  xy=(self.__left_lim, marker_y), xycoords='data',
                                   xytext=(-60,-7), textcoords='offset points',
                                   bbox=dict(boxstyle="round", fc="0.8"),
                                   arrowprops=dict(arrowstyle="-")
@@ -172,3 +200,4 @@ class GraphicsWiget(QWidget):
         right_x = (1/(x_max-x_min)) * (x_max - x_mouse)
         left_x = (1/(x_max-x_min)) * (x_min - x_mouse)
         return left_x, right_x
+

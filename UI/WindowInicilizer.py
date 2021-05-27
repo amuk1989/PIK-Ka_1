@@ -2,69 +2,86 @@ import sys
 import threading
 from Controllers.ParcelController import Parcel_controller
 from Controllers.InputSignalController import inputSignalController
-from Controllers.GUIController import GUIController
 from UI import MainPage, optionPage,clock
 from PyQt5 import QtCore, QtGui, QtWidgets
 from models.Parcel_model import parcel_modes, Parcel
 from PyQt5.QtWidgets import *
 
-GUI_controller: GUIController
-
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
-parcel_controller = Parcel_controller()
-input_signal_controller = inputSignalController()
 
 class WindowInicilizer(QtWidgets.QMainWindow, QWidget):
     def __init__(self,win):
         super().__init__()
         win.setupUi(self)
 
-def render():
+class Inicilizer():
+    time_value: float
+    def __init__(self):
+        self.parcel_controller = Parcel_controller()
+        self.input_signal_controller = inputSignalController()
+        self.parcel = Parcel()
+    def render(self):
+        app = QtWidgets.QApplication(sys.argv)
 
-    parcel = Parcel()
+        window = WindowInicilizer(mainWindow)
+        options = WindowInicilizer(optionWindow)
+        window.show()
 
-    app = QtWidgets.QApplication(sys.argv)
+        clock_thread = threading.Thread(target=clock.startClock, daemon=True)
+        clock_thread.start()
 
-    window = WindowInicilizer(mainWindow)
-    options = WindowInicilizer(optionWindow)
+        optionWindow.modeBox.addItems(parcel_modes)
+        optionWindow.modeBox.setCurrentIndex(self.parcel.parcel_mode)
+        optionWindow.timeEdit.value = self.parcel.detonation_time
+        optionWindow.minPowerBox.valueChanged.connect(self.set_min_power)
+        optionWindow.maxPowerBox.valueChanged.connect(self.set_max_power)
+        optionWindow.stepPowerBox.valueChanged.connect(self.set_step_power)
+        optionWindow.timeEdit.valueChanged.connect(self.set_time)
+        optionWindow.OkButton.clicked.connect(self.optionOkButton)
+        optionWindow.OkButton.clicked.connect(options.close)
 
-    window.show()
+        optionWindow.typeParcelSwitch.right_position_connect(optionWindow.fileParcelBox)
+        optionWindow.typeParcelSwitch.left_position_connect(optionWindow.parcelBox)
 
-    clock_thread = threading.Thread(target=clock.startClock, daemon=True)
-    clock_thread.start()
+        self.time_value = self.parcel.detonation_time
+        self.max_power_value, self.min_power_value, self.step_power_value = self.parcel.get_power()
 
-    optionWindow.modeBox.addItems(parcel_modes)
-    optionWindow.modeBox.setCurrentIndex(parcel.parcel_mode)
-    optionWindow.timeEdit.value = (parcel.detonation_time)
+        mainWindow.modeBox.addItems(parcel_modes)
+        mainWindow.modeBox.setCurrentIndex(self.parcel.parcel_mode)
+        mainWindow.timeEdit.value = self.parcel.detonation_time
 
-    mainWindow.modeBox.addItems(parcel_modes)
-    mainWindow.modeBox.setCurrentIndex(parcel.parcel_mode)
-    mainWindow.timeEdit.value = (parcel.detonation_time)
+        mainWindow.optionsButton.clicked.connect(options.show)
+        mainWindow.optionsButton_1.clicked.connect(options.show)
+        mainWindow.okButton.clicked.connect(self.okButton)
+        mainWindow.startButton.clicked.connect(self.startButton)
+        mainWindow.timeEdit.valueChanged.connect(self.set_time)
 
-    mainWindow.optionsButton.clicked.connect(options.show)
-    mainWindow.optionsButton_1.clicked.connect(options.show)
-    mainWindow.okButton.clicked.connect(okButton)
-    mainWindow.startButton.clicked.connect(startButton)
+        self.okButton()
+        self.startButton()
+        app.exec_()
 
-    GUI_controller = GUIController(mainWindow.FRWidget)
+    def optionOkButton(self):
+        print(self.max_power_value)
+        self.parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(), self.time_value,
+                                      optionWindow.pulseDurationBox.currentText(), self.max_power_value,
+                                      self.min_power_value, self.step_power_value)
 
-    optionWindow.OkButton.clicked.connect(optionOkButton)
-    optionWindow.OkButton.clicked.connect(options.close)
-    #mainWindow.timeEdit.valueChanged.connect()
+    def okButton(self):
+        self.parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), self.time_value,
+                                      optionWindow.pulseDurationBox.currentText(), self.max_power_value,
+                                      self.min_power_value, self.step_power_value)
 
+    def startButton(self):
+        self.input_signal_controller.set_signal()
 
-    okButton()
-    startButton()
-    app.exec_()
-
-def optionOkButton():
-    parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(),optionWindow.timeEdit.value,optionWindow.pulseDurationBox.currentText())
-
-def okButton():
-    print(mainWindow.timeEdit.value)
-    parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), mainWindow.timeEdit.value,optionWindow.pulseDurationBox.currentText())
-
-
-def startButton():
-    input_signal_controller.set_signal()
+    def set_time(self,value: float):
+        self.time_value = value
+    def set_max_power(self,value: float):
+        self.max_power_value = value
+    def set_min_power(self,value: float):
+        self.min_power_value = value
+    def set_step_power(self,value: float):
+        self.step_power_value = value
+    def test(self):
+        print('111')

@@ -1,3 +1,4 @@
+import Controllers.GUIController
 from models.Parcel_model import Parcel
 from models.ParcelObserver import ParcelObserver
 from models.singelton import singleton
@@ -9,13 +10,16 @@ class Parcel_controller(object):
         self.parcel_observer = ParcelObserver()
         self.parcel = Parcel()
         self.parcel.attach(self.parcel_observer)
+        self.parcel.attach(Controllers.GUIController.GUIController())
 
-    def edit_parcel(self, parcel_mode_index: int, detonation_time: float, pulse_duration: str):
+    def edit_parcel(self, parcel_mode_index: int, detonation_time: float, pulse_duration: str, max_power: float,
+                    min_power: float, step_power: float):
         try:
             self.parcel.detonation_time = detonation_time
             self.parcel.parcel_mode = parcel_mode_index
-            self.parcel.create_signal()
             self.parcel.signal_duration = int(pulse_duration)
+            self.parcel.set_power(max_power, min_power, step_power)
+            self.parcel.create_signal()
         except ValueError:
             self.parcel.create_signal()
             print('error')
@@ -31,6 +35,14 @@ class Parcel_controller(object):
     def insert_marker(self, request: Any, i: int, markers: List) -> bool:
         if request == 'parcelWidget':
             self.parcel.insert_marker(i, markers)
+            return False
+        else:
+            print('lose')
+            return True
+
+    def delete_marker(self, request: Any, marker) -> bool:
+        if request == 'parcelWidget':
+            self.parcel.delete_marker(marker)
             return False
         else:
             print('lose')

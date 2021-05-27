@@ -12,21 +12,47 @@ parcel_modes = [
 
 @singleton
 class Parcel(AbstractParcel):
+    _graph = {}
     _observers: List[AbstractParcelObserver] = []
-    __markers: List[marker_model] = []
-    __detonation_time: float = 0.1
-    _parcel_mode: int = 0
-    __signal_duration: int = 200
+    _markers: List[marker_model] = []
+    __detonation_time: float
+    _parcel_mode: int
+    __signal_duration: int
+    __parcel_count: int
+    __max_power: float
+    __min_power: float
+    __step_power: float
+    _name = ''
 
-    def __init__(self):
-        pass
-
-    #@property
-    def get_graph(self):
-        return self.__signal
+    def __init__(self, time:float = 0.1, mode: int = 0, duration: int = 200, count: int = 10000,
+                 max_power = 1.5, min_power = 0.1, step = 0.1):
+        self.__detonation_time: float = time
+        self._parcel_mode: int = mode
+        self.__signal_duration: int = duration
+        self.__parcel_count: int = count
+        self.__max_power: float = max_power
+        self.__min_power: float = min_power
+        self.__step_power: float = step
+        self._name = 'Parcel'
 
     def get_mask(self):
         return 'Маркер №, X, Y'
+
+    def get_parcel_count(self):
+        return self.__parcel_count
+    def set_parcel_count(self, value):
+        self.__parcel_count = value
+
+    signal_count = property(get_parcel_count, set_parcel_count)
+
+    def get_power(self):
+        return self.__max_power, self.__min_power, self.__step_power
+    def set_power(self, max_value: float, min_value: float, step: float):
+        self.__min_power = min_value
+        self.__max_power = max_value
+        self.__step_power = step
+
+    power = property(get_power, set_power)
 
     @property
     def parcel_mode(self):
@@ -54,28 +80,6 @@ class Parcel(AbstractParcel):
     def detonation_time(self,value):
         self.__detonation_time = value
 
-    def attach(self, observer: AbstractParcelObserver):
-        self._observers.append(observer)
-
-    def detach(self, observer: AbstractParcelObserver):
-        self._observers.remove(observer)
-
-    def add_marker(self, marker: marker_model):
-        self.__markers.append(marker)
-        self.notify()
-
-    def insert_marker(self, i:int, markers: List[marker_model]):
-        self.__markers = markers
-        self.notify()
-
-    def get_markers(self):
-        return self.__markers
-
-    def notify(self):
-        if len(self._observers) > 0:
-            for observer in self._observers:
-                observer.update(self)
-
     def create_signal(self):
         time = self.detonation_time*1000/4096
         signal_duration = self.__signal_duration/1000
@@ -99,5 +103,5 @@ class Parcel(AbstractParcel):
                 50400. + signal_duration + (time): 0,
                 50401. + signal_duration + (time): 0,
                 }
-        self.__signal = value
+        self.set_graph(value)
         self.notify()

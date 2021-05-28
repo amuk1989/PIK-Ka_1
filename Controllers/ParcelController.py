@@ -24,6 +24,16 @@ class Parcel_controller(object):
             self.parcel.create_signal()
             print('error')
 
+    def edit_parcel_from_file(self, text_file: str):
+        result = {}
+        try:
+            for line in text_file.split('\n'):
+                key, value = line.split(' ')
+                result[float(key)] = float(value)
+            self.parcel.create_from_file(result)
+        except ValueError:
+            print('error')
+
     def add_marker(self, request: Any, marker) -> bool:
         if request == 'parcelWidget':
             self.parcel.add_marker(marker)

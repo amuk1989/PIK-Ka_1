@@ -11,10 +11,6 @@ class AbstractParcel(ABC):
     _name: str
 
     @abstractmethod
-    def notify(self):
-        pass
-
-    @abstractmethod
     def add_marker(self, marker: marker_model):
         pass
 

@@ -40,6 +40,7 @@ class Inicilizer():
         optionWindow.timeEdit.valueChanged.connect(self.set_time)
         optionWindow.OkButton.clicked.connect(self.optionOkButton)
         optionWindow.OkButton.clicked.connect(options.close)
+        optionWindow.filePathButton.clicked.connect(self.filePathButton)
 
         optionWindow.typeParcelSwitch.right_position_connect(optionWindow.fileParcelBox)
         optionWindow.typeParcelSwitch.left_position_connect(optionWindow.parcelBox)
@@ -62,18 +63,30 @@ class Inicilizer():
         app.exec_()
 
     def optionOkButton(self):
-        print(self.max_power_value)
-        self.parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(), self.time_value,
-                                      optionWindow.pulseDurationBox.currentText(), self.max_power_value,
-                                      self.min_power_value, self.step_power_value)
+        if not optionWindow.typeParcelSwitch.state:
+            self.parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(), self.time_value,
+                                            optionWindow.pulseDurationBox.currentText(), self.max_power_value,
+                                            self.min_power_value, self.step_power_value)
+        else:
+            file = optionWindow.filePathEdit.text()
+            f = open(file, 'r')
+            data = f.read()
+            self.parcel_controller.edit_parcel_from_file(data)
 
     def okButton(self):
         self.parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), self.time_value,
-                                      optionWindow.pulseDurationBox.currentText(), self.max_power_value,
-                                      self.min_power_value, self.step_power_value)
+                                           optionWindow.pulseDurationBox.currentText(), self.max_power_value,
+                                           self.min_power_value, self.step_power_value)
 
     def startButton(self):
         self.input_signal_controller.set_signal()
+
+    def filePathButton(self):
+        optionWindow.filePathEdit.setText(self.openFileDialog())
+
+    def openFileDialog(self):
+        return QtWidgets.QFileDialog.getOpenFileName(filter = '*txt')[0]
+
 
     def set_time(self,value: float):
         self.time_value = value

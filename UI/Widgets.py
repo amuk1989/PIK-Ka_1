@@ -18,6 +18,8 @@ class GraphicsWiget(QWidget):
     __markers_x: List[float]
     __markers_y: List[float]
     __markers_legend: List[str]
+    _right_lim: float
+    _left_lim: float
 
     def __init__(self, parent=None):
         self.input_signal_controller.set_next(self.parcel_controller)
@@ -28,7 +30,7 @@ class GraphicsWiget(QWidget):
         self.__markers_x = []
         self.__markers_y = []
         self.__markers_legend = []
-        self.__right_lim: float = None
+        self._right_lim: float = None
 
         self.canvas = FigureCanvas(Figure())
         vertical_layout = QVBoxLayout()
@@ -49,7 +51,6 @@ class GraphicsWiget(QWidget):
 
         flag = False
         self.mask = legend_mask.split(', ')
-
         self.__x_axis = list(data.keys())
         self.__y_axis = list(data.values())
 
@@ -75,9 +76,9 @@ class GraphicsWiget(QWidget):
         self.max_y = np.amax(self.__y_axis)
         self.max_x = np.amax(self.__x_axis)
 
-        if self.__right_lim == None:
-            self.__right_lim = self.max_x
-            self.__left_lim = self.min_x
+        if self._right_lim == None:
+            self._right_lim = self.max_x
+            self._left_lim = self.min_x
 
         self.update()
 
@@ -92,8 +93,7 @@ class GraphicsWiget(QWidget):
 
         for i in range(0,len(self.__markers_x)):
             self.__marker_draw(self.__markers_x[i], self.__markers_y[i])
-
-        self.canvas.axes.set_xlim(self.__left_lim, self.__right_lim)
+        self.canvas.axes.set_xlim(self._left_lim, self._right_lim)
         self.canvas.draw()
 
     #region events
@@ -118,17 +118,17 @@ class GraphicsWiget(QWidget):
     def mouse_scroll(self,event):
         if event.inaxes:
             x, y = event.xdata, event.ydata
-            left, right = self.size_canvas(x,y,self.__right_lim,self.max_y,self.__left_lim,self.min_y)
+            left, right = self.size_canvas(x,y,self._right_lim,self.max_y,self._left_lim,self.min_y)
 
-            if self.__left_lim >= self.min_x:
-                self.__left_lim += event.step*left
+            if self._left_lim >= self.min_x:
+                self._left_lim += event.step*left
             else:
-                self.__left_lim = self.min_x
+                self._left_lim = self.min_x
 
-            if self.__right_lim <= self.max_x:
-                self.__right_lim += event.step*right
+            if self._right_lim <= self.max_x:
+                self._right_lim += event.step*right
             else:
-                self.__right_lim = self.max_x
+                self._right_lim = self.max_x
 
             self.update()
 
@@ -144,6 +144,7 @@ class GraphicsWiget(QWidget):
     def createContextMenu(self):
         self.setContextMenuPolicy(Qt.ActionsContextMenu)
         self.create_actions('Удалить маркер', self.delete_marker)
+        self.create_actions('Сбросить Zoom', self.dropp_zoom)
 
     def create_actions(self, name: str, event: object):
         newAction = QAction(name, self)
@@ -152,6 +153,11 @@ class GraphicsWiget(QWidget):
 
     def test_acton(self):
         print('ttt')
+
+    def dropp_zoom(self):
+        self._right_lim = self.max_x
+        self._left_lim = self.min_x
+        self.update()
 
     def delete_marker(self):
         if self.__focus_marker != None:
@@ -176,11 +182,11 @@ class GraphicsWiget(QWidget):
             return None
 
     def __marker_draw(self, marker_x: float, marker_y: float):
-        self.canvas.axes.plot([marker_x, self.__left_lim], [marker_y, marker_y],
+        self.canvas.axes.plot([marker_x, self._left_lim], [marker_y, marker_y],
                               color='black', dashes=[6, 4], linewidth=0.5)
 
         self.canvas.axes.annotate(f'{self.mask[0]} \n{self.mask[2]}:{round(marker_y, 2)}',
-                                  xy=(self.__left_lim, marker_y), xycoords='data',
+                                  xy=(self._left_lim, marker_y), xycoords='data',
                                   xytext=(-60,-7), textcoords='offset points',
                                   bbox=dict(boxstyle="round", fc="0.8"),
                                   arrowprops=dict(arrowstyle="-")

@@ -105,3 +105,7 @@ class Parcel(AbstractParcel):
                 }
         self.set_graph(value)
         self.notify()
+
+    def create_from_file(self, graph: dict):
+        self.set_graph(graph)
+        self.notify()

@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel
 
 
 class QSwitch(QWidget):
-    state = True
+    state = False
     __right_object: QWidget
     __left_object: QWidget
     def __init__(self, parent=None):

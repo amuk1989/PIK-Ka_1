@@ -57,3 +57,6 @@ class Parcel_controller(object):
         else:
             print('lose')
             return True
+
+    def send(self):
+        pass

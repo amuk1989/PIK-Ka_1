@@ -47,3 +47,6 @@ class inputSignalController(AbstractHandler):
             return True
         else:
             return super().delete_marker(request, marker)
+
+    def accept_parcel(self):
+        pass

@@ -105,8 +105,9 @@ class Ui_optionPage(object):
         self.parcelCountBox.setObjectName("parcelCountBox")
         self.timeEdit = QtWidgets.QDoubleSpinBox(self.parcelBox)
         self.timeEdit.setGeometry(QtCore.QRect(180, 80, 111, 22))
-        self.timeEdit.setMinimum(0.1)
-        self.timeEdit.setMaximum(14000.0)
+        self.timeEdit.setDecimals(0)
+        self.timeEdit.setMinimum(1.0)
+        self.timeEdit.setMaximum(4095.0)
         self.timeEdit.setObjectName("timeEdit")
         self.label_4 = QtWidgets.QLabel(self.parcelBox)
         self.label_4.setGeometry(QtCore.QRect(10, 110, 111, 41))
@@ -181,8 +182,8 @@ class Ui_optionPage(object):
         self.gridLayout_2.setHorizontalSpacing(6)
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.typeParcelSwitch = QSwitch(self.gridLayoutWidget)
-        self.typeParcelSwitch.setProperty("Image", QtGui.QPixmap("resurces/slider.png"))
-        self.typeParcelSwitch.setProperty("alterImage", QtGui.QPixmap("resurces/slider_l.png"))
+        self.typeParcelSwitch.setProperty("Image", QtGui.QPixmap("C:/Users/User/.designer/backup/resurces/slider.png"))
+        self.typeParcelSwitch.setProperty("alterImage", QtGui.QPixmap("C:/Users/User/.designer/backup/resurces/slider_l.png"))
         self.typeParcelSwitch.setObjectName("typeParcelSwitch")
         self.gridLayout_2.addWidget(self.typeParcelSwitch, 0, 0, 1, 1)
         optionPage.setCentralWidget(self.centralwidget)
@@ -196,7 +197,6 @@ class Ui_optionPage(object):
 
         self.retranslateUi(optionPage)
         self.cancelButton.clicked.connect(optionPage.close)
-        #self.typeParcelSwitch.switch['bool'].connect(self.parcelBox.update)
         QtCore.QMetaObject.connectSlotsByName(optionPage)
 
     def retranslateUi(self, optionPage):

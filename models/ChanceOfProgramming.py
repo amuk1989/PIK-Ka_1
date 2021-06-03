@@ -14,6 +14,8 @@ class Chance_Programming(AbstractParcel):
     #region properties
     def get_mask(self):
         return 'Маркер №, N, P(N)'
+    def get_label(self):
+        return 'Мощность, Вт', 'Вероятность, P'
     #endregion
 
     #region methods

@@ -47,12 +47,13 @@ class GraphicsWiget(QWidget):
         self.canvas.mpl_connect('key_release_event', self.on_press)
 
     #@pyqtSlot()
-    def drawAmp(self, data:dict, legend_mask: str = 'Маркер №, X, Y', markers: marker_model = []):
-
+    def drawAmp(self, data: dict, legend_mask: str = 'Маркер №, X, Y', markers: marker_model = [], labels = ('_','_')):
         flag = False
         self.mask = legend_mask.split(', ')
         self.__x_axis = list(data.keys())
         self.__y_axis = list(data.values())
+
+        self.__x_labels, self.__y_labels = labels
 
         for i in range(0, len(markers)):
             if not equal(self.__x_axis, markers[i].x, 2) or not equal(self.__y_axis, markers[i].y, 2):
@@ -85,6 +86,9 @@ class GraphicsWiget(QWidget):
     def update(self):
         self.canvas.axes.clear()
         self.canvas.axes.plot(self.__x_axis, self.__y_axis, ls='-')
+
+        self.canvas.axes.set_xlabel(self.__x_labels)
+        self.canvas.axes.set_ylabel(self.__y_labels)
 
         if self.__focus_marker != None:
             self.canvas.axes.scatter(self.__focus_marker.x, self.__focus_marker.y)

@@ -67,11 +67,13 @@ class Inicilizer():
             self.parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(), self.time_value,
                                             optionWindow.pulseDurationBox.currentText(), self.max_power_value,
                                             self.min_power_value, self.step_power_value)
-        else:
+        elif optionWindow.filePathEdit.text() != '':
             file = optionWindow.filePathEdit.text()
             f = open(file, 'r')
             data = f.read()
             self.parcel_controller.edit_parcel_from_file(data)
+            optionWindow.typeParcelSwitch.state = False
+
 
     def okButton(self):
         self.parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), self.time_value,
@@ -80,6 +82,7 @@ class Inicilizer():
 
     def startButton(self):
         self.input_signal_controller.set_signal()
+        self.parcel_controller.send()
 
     def filePathButton(self):
         optionWindow.filePathEdit.setText(self.openFileDialog())

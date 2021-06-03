@@ -258,11 +258,14 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
        <height>22</height>
       </rect>
      </property>
+     <property name="decimals">
+      <number>0</number>
+     </property>
      <property name="minimum">
-      <double>0.100000000000000</double>
+      <double>1.000000000000000</double>
      </property>
      <property name="maximum">
-      <double>14000.000000000000000</double>
+      <double>4095.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
@@ -465,10 +468,10 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
      <item row="0" column="0">
       <widget class="QSwitch" name="typeParcelSwitch" native="true">
        <property name="Image" stdset="0">
-        <pixmap>resurces/slider.png</pixmap>
+        <pixmap>C:/Users/User/.designer/backup/resurces/slider.png</pixmap>
        </property>
        <property name="alterImage" stdset="0">
-        <pixmap>resurces/slider_l.png</pixmap>
+        <pixmap>C:/Users/User/.designer/backup/resurces/slider_l.png</pixmap>
        </property>
       </widget>
      </item>
@@ -513,22 +516,6 @@ font: 87 12pt &quot;Gilroy&quot;;</string>
     <hint type="destinationlabel">
      <x>247</x>
      <y>168</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>typeParcelSwitch</sender>
-   <signal>switch(bool)</signal>
-   <receiver>parcelBox</receiver>
-   <slot>update()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>465</x>
-     <y>45</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>230</x>
-     <y>195</y>
     </hint>
    </hints>
   </connection>

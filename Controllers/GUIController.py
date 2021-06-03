@@ -9,7 +9,6 @@ class GUIController(AbstractParcelObserver):
     def update(self, subject: AbstractParcel):
         if str(subject) == 'Parcel':
             from UI.WindowInicilizer import mainWindow, optionWindow
-            mainWindow.parcelWidget.drawAmp(subject.get_graph(), subject.get_mask(), subject.get_markers())
             mainWindow.timeEdit.setValue(subject.detonation_time)
             optionWindow.timeEdit.setValue(subject.detonation_time)
             mainWindow.modeBox.setCurrentIndex(subject.parcel_mode)

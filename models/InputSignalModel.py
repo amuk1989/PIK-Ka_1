@@ -21,6 +21,9 @@ class InputSignalModel(AbstractParcel):
     #region properties
     def get_mask(self):
         return 'Маркер №, A, Ч'
+
+    def get_label(self):
+        return 'Частота, ГГц', 'Амплитуда'
     #endregion
 
     #region Methods

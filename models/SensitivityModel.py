@@ -13,6 +13,9 @@ class Sensitivity_model(AbstractParcel):
     # region properties
     def get_mask(self):
         return 'Маркер №, P(N), N Вт'
+
+    def get_label(self):
+        return '', ''
     # endregion
     def __init__(self):
         self._name = 'Sensitivity'

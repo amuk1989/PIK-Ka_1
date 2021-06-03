@@ -19,6 +19,11 @@ class AbstractParcel(ABC):
     def get_mask(self):
         pass
 
+    @property
+    @abstractmethod
+    def get_label(self):
+        pass
+
     def __str__(self):
         return self._name
     def get_graph(self):

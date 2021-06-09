@@ -14,12 +14,13 @@ class Parcel_controller(object):
         self.parcel.attach(Controllers.GUIController.GUIController())
 
     def edit_parcel(self, parcel_mode_index: int, detonation_time: float, pulse_duration: str, max_power: float,
-                    min_power: float, step_power: float):
+                    min_power: float, step_power: float, parcel_count: float):
         try:
             self.parcel.detonation_time = detonation_time
             self.parcel.parcel_mode = parcel_mode_index
             self.parcel.signal_duration = int(pulse_duration)
             self.parcel.set_power(max_power, min_power, step_power)
+            self.parcel.signal_count = parcel_count
             self.parcel.create_signal()
         except ValueError:
             self.parcel.create_signal()
@@ -67,4 +68,3 @@ class Parcel_controller(object):
             data = ser.read(2)
             print(int.from_bytes(data, 'big'))
             #send_telegram(str(int.from_bytes(data, 'big')))
-

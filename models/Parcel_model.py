@@ -78,7 +78,7 @@ class Parcel(AbstractParcel):
     def parcel_mode(self,value):
         self._parcel_mode = value
         if parcel_modes[value] == 'Режим самоликвидации':
-            self.detonation_time = 14000
+            self.detonation_time = 4095
 
     @signal_duration.setter
     def signal_duration(self,value):

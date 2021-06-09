@@ -1,6 +1,10 @@
+from typing import List
+
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QTableWidget
 from models.AbstractParcel import AbstractParcelObserver, AbstractParcel
 from models.singelton import singleton
-#from UI.WindowInicilizer import mainWindow, optionWindow
+from Meters.Device import Device
 
 @singleton
 class GUIController(AbstractParcelObserver):
@@ -13,6 +17,3 @@ class GUIController(AbstractParcelObserver):
             optionWindow.timeEdit.setValue(subject.detonation_time)
             mainWindow.modeBox.setCurrentIndex(subject.parcel_mode)
             optionWindow.modeBox.setCurrentIndex(subject.parcel_mode)
-
-    def connects(self):
-        from UI.WindowInicilizer import mainWindow, optionWindow

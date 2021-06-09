@@ -2,13 +2,15 @@ import sys
 import threading
 from Controllers.ParcelController import Parcel_controller
 from Controllers.InputSignalController import inputSignalController
-from UI import MainPage, optionPage,clock
+from UI import MainPage, optionPage, ConnectPage, clock
 from PyQt5 import QtCore, QtGui, QtWidgets
 from models.Parcel_model import parcel_modes, Parcel
 from PyQt5.QtWidgets import *
+from Meters.MeterInit import MeterInit
 
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
+connectsWindow = ConnectPage.Ui_connectionPage()
 
 class WindowInicilizer(QtWidgets.QMainWindow, QWidget):
     def __init__(self,win):
@@ -21,16 +23,19 @@ class Inicilizer():
         self.parcel_controller = Parcel_controller()
         self.input_signal_controller = inputSignalController()
         self.parcel = Parcel()
+        self.Meter = MeterInit()
     def render(self):
         app = QtWidgets.QApplication(sys.argv)
 
-        window = WindowInicilizer(mainWindow)
-        options = WindowInicilizer(optionWindow)
-        window.show()
+        self.window = WindowInicilizer(mainWindow)
+        self.options = WindowInicilizer(optionWindow)
+        self.connects = WindowInicilizer(connectsWindow)
+        self.window.show()
 
         clock_thread = threading.Thread(target=clock.startClock, daemon=True)
         clock_thread.start()
 
+        #region option
         optionWindow.modeBox.addItems(parcel_modes)
         optionWindow.modeBox.setCurrentIndex(self.parcel.parcel_mode)
         optionWindow.timeEdit.value = self.parcel.detonation_time
@@ -38,51 +43,69 @@ class Inicilizer():
         optionWindow.maxPowerBox.valueChanged.connect(self.set_max_power)
         optionWindow.stepPowerBox.valueChanged.connect(self.set_step_power)
         optionWindow.timeEdit.valueChanged.connect(self.set_time)
+        optionWindow.parcelCountBox.valueChanged.connect(self.set_parcel_count)
+        optionWindow.parcelCountBox.setValue(self.parcel.signal_count)
         optionWindow.OkButton.clicked.connect(self.optionOkButton)
-        optionWindow.OkButton.clicked.connect(options.close)
         optionWindow.filePathButton.clicked.connect(self.filePathButton)
 
         optionWindow.typeParcelSwitch.right_position_connect(optionWindow.fileParcelBox)
         optionWindow.typeParcelSwitch.left_position_connect(optionWindow.parcelBox)
 
+        optionWindow.powerSwitch.right_position_connect(optionWindow.powerBox)
+        optionWindow.powerSwitch.left_position_connect(optionWindow.rangePowerBox)
+        #endregion
+
         self.time_value = self.parcel.detonation_time
         self.max_power_value, self.min_power_value, self.step_power_value = self.parcel.get_power()
+        self.parcel_count_value = self.parcel.signal_count
+
+        #region Main
+        mainWindow.optionsButton.clicked.connect(self.options.show)
+        mainWindow.optionsButton_1.clicked.connect(self.options.show)
+        mainWindow.startButton.clicked.connect(self.startButton)
+        mainWindow.startButton_2.clicked.connect(self.startButton)
 
         mainWindow.modeBox.addItems(parcel_modes)
-        mainWindow.modeBox.setCurrentIndex(self.parcel.parcel_mode)
-        mainWindow.timeEdit.value = self.parcel.detonation_time
+        mainWindow.timeEdit.valueChanged.connect(self.timeEdit)
 
-        mainWindow.optionsButton.clicked.connect(options.show)
-        mainWindow.optionsButton_1.clicked.connect(options.show)
-        mainWindow.okButton.clicked.connect(self.okButton)
-        mainWindow.startButton.clicked.connect(self.startButton)
-        mainWindow.timeEdit.valueChanged.connect(self.set_time)
+        mainWindow.powerSwitch.left_position_connect(mainWindow.rangePowerBox)
+        mainWindow.powerSwitch.right_position_connect(mainWindow.powerBox)
+
+        mainWindow.connectOptionsButton.clicked.connect(self.connect_option_win)
+        #endregion
 
         self.okButton()
-        self.startButton()
         app.exec_()
 
     def optionOkButton(self):
         if not optionWindow.typeParcelSwitch.state:
             self.parcel_controller.edit_parcel(optionWindow.modeBox.currentIndex(), self.time_value,
-                                            optionWindow.pulseDurationBox.currentText(), self.max_power_value,
-                                            self.min_power_value, self.step_power_value)
+                                                optionWindow.pulseDurationBox.currentText(), self.max_power_value,
+                                                self.min_power_value, self.step_power_value, self.parcel_count_value)
+            self.options.close()
         elif optionWindow.filePathEdit.text() != '':
             file = optionWindow.filePathEdit.text()
             f = open(file, 'r')
             data = f.read()
             self.parcel_controller.edit_parcel_from_file(data)
             optionWindow.typeParcelSwitch.state = False
+            self.options.close()
+        else:
+            print('error')
 
 
     def okButton(self):
         self.parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), self.time_value,
                                            optionWindow.pulseDurationBox.currentText(), self.max_power_value,
-                                           self.min_power_value, self.step_power_value)
+                                           self.min_power_value, self.step_power_value, self.parcel_count_value)
 
     def startButton(self):
         self.input_signal_controller.set_signal()
         self.parcel_controller.send()
+
+    def timeEdit(self, value):
+        self.set_time(value)
+        self.okButton()
 
     def filePathButton(self):
         optionWindow.filePathEdit.setText(self.openFileDialog())
@@ -90,6 +113,16 @@ class Inicilizer():
     def openFileDialog(self):
         return QtWidgets.QFileDialog.getOpenFileName(filter = '*txt')[0]
 
+    def okStart(self):
+        self.okButton()
+        self.startButton()
+    def optionOkStart(self):
+        self.optionOkButton()
+        self.startButton()
+
+    def connect_option_win(self):
+        self.connects.show()
+        self.Meter.table_show(connectsWindow.connectionTable)
 
     def set_time(self,value: float):
         self.time_value = value
@@ -99,5 +132,7 @@ class Inicilizer():
         self.min_power_value = value
     def set_step_power(self,value: float):
         self.step_power_value = value
+    def set_parcel_count(self, value: int):
+        self.parcel_count_value = value
     def test(self):
         print('111')

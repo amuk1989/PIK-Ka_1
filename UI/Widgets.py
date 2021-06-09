@@ -10,7 +10,6 @@ from Controllers.InputSignalController import inputSignalController
 from floatMethods import equal
 import numpy as np
 import math
-import sys
 
 class GraphicsWiget(QWidget):
     input_signal_controller = inputSignalController()

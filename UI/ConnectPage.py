@@ -39,7 +39,7 @@ class Ui_connectionPage(object):
         self.connectionTable.setMaximumSize(QtCore.QSize(854, 480))
         self.connectionTable.setFrameShape(QtWidgets.QFrame.Box)
         self.connectionTable.setLineWidth(1)
-        self.connectionTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.connectionTable.setEditTriggers(QtWidgets.QAbstractItemView.SelectedClicked)
         self.connectionTable.setObjectName("connectionTable")
         self.connectionTable.setColumnCount(3)
         self.connectionTable.setRowCount(0)
@@ -53,6 +53,7 @@ class Ui_connectionPage(object):
         connectionPage.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(connectionPage)
+        self.okButton.clicked.connect(connectionPage.close)
         QtCore.QMetaObject.connectSlotsByName(connectionPage)
 
     def retranslateUi(self, connectionPage):

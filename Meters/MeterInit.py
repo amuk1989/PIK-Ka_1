@@ -1,8 +1,11 @@
 from typing import List
 from Meters.Device import Device
 from UI.QConnectsWidget import QConnectsWidget
+from Meters.AbstractDevices import AbstractDevices,AbstractObserver
+from models.singelton import singleton
 import pyvisa as visa
 
+@singleton
 class MeterInit():
     def __init__(self):
         rm = visa.ResourceManager()
@@ -14,9 +17,9 @@ class MeterInit():
     def get_devices_list(self, filter: str = ''):
         return self.devices
 
-    def table_show(self, table: QConnectsWidget, fields: List[int] = [0,]):
-        table.setRowCount(len(self.devices))
+    def update_model(self, i: int, state: bool):
+        self.devices[i].connect(state)
+
+    def attach(self, observer: AbstractObserver):
         for i in range(0, len(self.devices)):
-            table.addCell(i, 0, self.devices[i].name)
-            table.addCell(i, 1, self.devices[i].ip)
-            table.addCheckCell(i, 2)
+            self.devices[i].attach(observer)

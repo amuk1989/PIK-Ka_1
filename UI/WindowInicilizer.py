@@ -6,7 +6,7 @@ from UI import MainPage, optionPage, ConnectPage, clock
 from PyQt5 import QtCore, QtGui, QtWidgets
 from models.Parcel_model import parcel_modes, Parcel
 from PyQt5.QtWidgets import *
-from Meters.MeterInit import MeterInit
+from Meters.GUIController import GUIController
 
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
@@ -23,13 +23,16 @@ class Inicilizer():
         self.parcel_controller = Parcel_controller()
         self.input_signal_controller = inputSignalController()
         self.parcel = Parcel()
-        self.Meter = MeterInit()
+
     def render(self):
         app = QtWidgets.QApplication(sys.argv)
 
         self.window = WindowInicilizer(mainWindow)
         self.options = WindowInicilizer(optionWindow)
         self.connects = WindowInicilizer(connectsWindow)
+        self.connectGuiController = GUIController(connectsWindow.connectionTable)
+        self.mainWinConnectGuiController = GUIController(mainWindow.tableWidget)
+        self.mainWinConnectGuiController.table_show(showDisconnectedDevice = False)
         self.window.show()
 
         clock_thread = threading.Thread(target=clock.startClock, daemon=True)
@@ -53,6 +56,10 @@ class Inicilizer():
 
         optionWindow.powerSwitch.right_position_connect(optionWindow.powerBox)
         optionWindow.powerSwitch.left_position_connect(optionWindow.rangePowerBox)
+        #endregion
+
+        #region connectWindow
+
         #endregion
 
         self.time_value = self.parcel.detonation_time
@@ -122,7 +129,7 @@ class Inicilizer():
 
     def connect_option_win(self):
         self.connects.show()
-        self.Meter.table_show(connectsWindow.connectionTable)
+        self.connectGuiController.table_show()
 
     def set_time(self,value: float):
         self.time_value = value

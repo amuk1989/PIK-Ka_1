@@ -1182,7 +1182,7 @@
         <attribute name="label">
          <string>Настройки соединений</string>
         </attribute>
-        <widget class="QTableWidget" name="tableWidget">
+        <widget class="QConnectsWidget" name="tableWidget">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -1213,7 +1213,7 @@
           <number>0</number>
          </property>
          <property name="columnCount">
-          <number>4</number>
+          <number>3</number>
          </property>
          <attribute name="horizontalHeaderCascadingSectionResizes">
           <bool>true</bool>
@@ -1233,11 +1233,6 @@
          <attribute name="verticalHeaderStretchLastSection">
           <bool>false</bool>
          </attribute>
-         <column>
-          <property name="text">
-           <string/>
-          </property>
-         </column>
          <column>
           <property name="text">
            <string>Имя</string>
@@ -1287,6 +1282,11 @@
  </widget>
  <layoutdefault spacing="6" margin="6"/>
  <customwidgets>
+  <customwidget>
+   <class>QConnectsWidget</class>
+   <extends>QTableWidget</extends>
+   <header>UI.QConnectsWidget.h</header>
+  </customwidget>
   <customwidget>
    <class>GraphicsWiget</class>
    <extends>QWidget</extends>

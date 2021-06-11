@@ -1,15 +1,16 @@
 from __future__ import annotations
 from typing import List
 from Meters.AbstractDevices import AbstractDevices, AbstractObserver
-import pyvisa as visa
-
+import pyvisa
 
 class Device():
     _observers: List[AbstractObserver] = []
-    def __init__(self, rm: visa.ResourceManager, visa_addres: str):
 
+    def __init__(self, rm: pyvisa.ResourceManager, visa_addres: str):
         self.device = rm.open_resource(visa_addres)
+        print(visa_addres)
         propertiesList = str(self.device.query(str("*IDN?"))).split(', ')
+        print(propertiesList)
         self.name = propertiesList[1]
         self.ip = visa_addres.split('::')[1]
         self.isConnect = False

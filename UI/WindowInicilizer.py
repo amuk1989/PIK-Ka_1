@@ -7,6 +7,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from models.Parcel_model import parcel_modes, Parcel
 from PyQt5.QtWidgets import *
 from Meters.GUIController import GUIController
+from Meters.MeterInit import MeterInit
 
 mainWindow = MainPage.Ui_MainWindow()
 optionWindow = optionPage.Ui_optionPage()
@@ -23,6 +24,7 @@ class Inicilizer():
         self.parcel_controller = Parcel_controller()
         self.input_signal_controller = inputSignalController()
         self.parcel = Parcel()
+        self.meter = MeterInit()
 
     def render(self):
         app = QtWidgets.QApplication(sys.argv)
@@ -59,7 +61,7 @@ class Inicilizer():
         #endregion
 
         #region connectWindow
-
+        connectsWindow.addDeviceButton.clicked.connect(self.add_device_button)
         #endregion
 
         self.time_value = self.parcel.detonation_time
@@ -101,6 +103,7 @@ class Inicilizer():
             print('error')
 
 
+
     def okButton(self):
         self.parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), self.time_value,
                                            optionWindow.pulseDurationBox.currentText(), self.max_power_value,
@@ -130,6 +133,9 @@ class Inicilizer():
     def connect_option_win(self):
         self.connects.show()
         self.connectGuiController.table_show()
+
+    def add_device_button(self):
+        self.meter.add_device(connectsWindow.VISAaddresEdit.text())
 
     def set_time(self,value: float):
         self.time_value = value

@@ -8,11 +8,14 @@ import pyvisa as visa
 @singleton
 class MeterInit():
     def __init__(self):
-        rm = visa.ResourceManager()
+        self.rm = visa.ResourceManager()
         self.devices: List[Device] = []
-        for i in range(0, len(rm.list_resources())):
-            device = Device(rm, rm.list_resources()[i])
-            self.devices.append(device)
+        for i in range(0, len(self.rm.list_resources())):
+            self.add_device(self.rm.list_resources()[i])
+
+    def add_device(self, visa_addres: str):
+        device = Device(self.rm, visa_addres)
+        self.devices.append(device)
 
     def get_devices_list(self, filter: str = ''):
         return self.devices

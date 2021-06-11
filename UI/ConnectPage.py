@@ -50,6 +50,12 @@ class Ui_connectionPage(object):
         item = QtWidgets.QTableWidgetItem()
         self.connectionTable.setHorizontalHeaderItem(2, item)
         self.connectionTable.horizontalHeader().setStretchLastSection(True)
+        self.VISAaddresEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.VISAaddresEdit.setGeometry(QtCore.QRect(10, 20, 741, 20))
+        self.VISAaddresEdit.setObjectName("VISAaddresEdit")
+        self.addDeviceButton = QtWidgets.QPushButton(self.centralwidget)
+        self.addDeviceButton.setGeometry(QtCore.QRect(760, 20, 91, 21))
+        self.addDeviceButton.setObjectName("addDeviceButton")
         connectionPage.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(connectionPage)
@@ -66,4 +72,7 @@ class Ui_connectionPage(object):
         item.setText(_translate("connectionPage", "Адрес"))
         item = self.connectionTable.horizontalHeaderItem(2)
         item.setText(_translate("connectionPage", "Статус"))
+        self.VISAaddresEdit.setText(_translate("connectionPage", "TCPIP::localhost::5025::SOCKET"))
+        self.VISAaddresEdit.setPlaceholderText(_translate("connectionPage", "VISA addres"))
+        self.addDeviceButton.setText(_translate("connectionPage", "Добавить"))
 from UI.QConnectsWidget import QConnectsWidget

@@ -1,8 +1,5 @@
-#from __future__ import annotations
 import math
-
 from bitarray import bitarray, util
-
 from models.AbstractParcel import AbstractParcelObserver,AbstractParcel
 from typing import List
 from models.singelton import singleton

@@ -1,3 +1,0 @@
-
-def Say():
-    print("message")

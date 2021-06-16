@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QWidget
+from PyQt5.QtWidgets import QTableWidget, QWidget
 
 class QConnectsWidget(QTableWidget, QWidget):
     def __init__(self, parent=None):

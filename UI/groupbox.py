@@ -13,5 +13,3 @@ class GroupBox(QGroupBox):
             self.setFixedHeight(381)
         else:
             self.setFixedHeight(21)
-    def mouseMoveEvent(self, event: QtGui.QMouseEvent) -> None:
-        print('a')

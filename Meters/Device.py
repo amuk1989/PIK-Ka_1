@@ -1,19 +1,19 @@
 from __future__ import annotations
 from typing import List
-from Meters.AbstractDevices import AbstractDevices, AbstractObserver
+from Meters.AbstractDevices import AbstractObserver
 import pyvisa
 
 class Device():
     _observers: List[AbstractObserver] = []
-
-    def __init__(self, rm: pyvisa.ResourceManager, visa_addres: str):
-        self.device = rm.open_resource(visa_addres)
-        print(visa_addres)
-        propertiesList = str(self.device.query(str("*IDN?"))).split(', ')
-        print(propertiesList)
+    def __init__(self, device: pyvisa.Resource, visa_addres: str):
+        self.device = device
+        data = '*RST'.encode()
+        self.device.write(data.decode('utf-8'))
+        propertiesList = str(self.device.query('*IDN?')).split(', ')
         self.name = propertiesList[1]
         self.ip = visa_addres.split('::')[1]
         self.isConnect = False
+        #self.set_driver()
 
     def __get_name(self):
         return self._name
@@ -52,3 +52,6 @@ class Device():
         if len(self._observers) > 0:
             for observer in self._observers:
                 observer.update(self)
+
+    def set_driver(self):
+        return 'Не удалось подключить драйвер'

@@ -1,5 +1,4 @@
 import requests
-import telebot
 
 def send_telegram(text: str):
     chat_id = '-1001490792674'

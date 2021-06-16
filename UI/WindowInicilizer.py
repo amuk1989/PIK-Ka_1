@@ -3,7 +3,7 @@ import threading
 from Controllers.ParcelController import Parcel_controller
 from Controllers.InputSignalController import inputSignalController
 from UI import MainPage, optionPage, ConnectPage, clock
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtWidgets
 from models.Parcel_model import parcel_modes, Parcel
 from PyQt5.QtWidgets import *
 from Meters.GUIController import GUIController
@@ -32,6 +32,8 @@ class Inicilizer():
         self.window = WindowInicilizer(mainWindow)
         self.options = WindowInicilizer(optionWindow)
         self.connects = WindowInicilizer(connectsWindow)
+        self.message = QMessageBox()
+
         self.connectGuiController = GUIController(connectsWindow.connectionTable)
         self.mainWinConnectGuiController = GUIController(mainWindow.tableWidget)
         self.mainWinConnectGuiController.table_show(showDisconnectedDevice = False)
@@ -81,6 +83,7 @@ class Inicilizer():
         mainWindow.powerSwitch.right_position_connect(mainWindow.powerBox)
 
         mainWindow.connectOptionsButton.clicked.connect(self.connect_option_win)
+
         #endregion
 
         self.okButton()
@@ -135,7 +138,12 @@ class Inicilizer():
         self.connectGuiController.table_show()
 
     def add_device_button(self):
-        self.meter.add_device(connectsWindow.VISAaddresEdit.text())
+        result = self.meter.add_device(connectsWindow.VISAaddresEdit.text())
+        if result != 'Success':
+            self.message.setWindowTitle('Ошибка')
+            self.message.setText(result)
+            self.message.setIcon(QMessageBox.Critical)
+            self.message.show()
 
     def set_time(self,value: float):
         self.time_value = value

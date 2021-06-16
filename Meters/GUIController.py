@@ -1,3 +1,5 @@
+from typing import List
+
 from Meters.MeterInit import MeterInit
 from Meters.AbstractDevices import AbstractObserver, AbstractDevices
 from UI import QConnectsWidget

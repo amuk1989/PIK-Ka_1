@@ -1,10 +1,5 @@
-from typing import List
-
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QTableWidget
 from models.AbstractParcel import AbstractParcelObserver, AbstractParcel
 from models.singelton import singleton
-from Meters.Device import Device
 
 @singleton
 class GUIController(AbstractParcelObserver):

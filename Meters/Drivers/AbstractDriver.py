@@ -1,30 +1,31 @@
 from abc import ABC, abstractmethod
+import pyvisa as visa
+
 
 class AbstractDriver(ABC):
-    def Errcheck(self):
+    # Интерфейс драйвера
+    @abstractmethod
+    def __init__(self):
+        self._model: str
 
-        myError = []
-        ErrorList = self.Meter.query("SYST:ERR?").split(',')
-        Error = ErrorList[0]
-        if int(Error) == 0:
-            print("+0, No Error!")
-        else:
-            while int(Error) != 0:
-                print("Error #: " + ErrorList[0])
-                print("Error Description: " + ErrorList[1])
-                myError.append(ErrorList[0])
-                myError.append(ErrorList[1])
-                ErrorList = self.Meter.query("SYST:ERR?").split(',')
-                Error = ErrorList[0]
-                myError = list(myError)
+    @abstractmethod
+    def __str__(self):
+        pass
 
-        return myError
+    @abstractmethod
+    def get_idn(self):
+        pass
 
-    def Open(self, mPar):
-        data = '*RST'.encode()
-        self.Meter.write(data.decode('utf-8'))
+    @abstractmethod
+    def open(self):
+        pass
 
-    def Close(self):
-        self.Meter.write('SYST:PRES')
-        self.Meter.clear()
-        self.Meter.close()
+    @abstractmethod
+    def close(self):
+        pass
+
+    def device_init(self, ip: str, port: str):
+        return 'Драйвер не обнаружен'
+
+    def get_model(self):
+        return self._model

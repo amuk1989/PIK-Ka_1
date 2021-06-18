@@ -21,7 +21,6 @@ class AbstractDevices(ABC):
         return self._name
     def __set_name(self, value):
         self._name = value
-        #self.notify()
     name = property(__get_name, __set_name, doc='Device name/model')
 
     def __get_ip(self):

@@ -2,16 +2,20 @@ from PyQt5 import QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QTableWidget, QWidget
 
+
 class QConnectsWidget(QTableWidget, QWidget):
     def __init__(self, parent=None):
         QTableWidget.__init__(self, parent)
         self.resizeColumnsToContents()
+
     def addRow(self):
         self.setRowCount(self.rowCount()+1)
+
     def addCell(self, row: int, column: int, value: str = ''):
         item = QtWidgets.QTableWidgetItem()
         self.setItem(row, column, item)
         self.item(row, column).setText(value)
+
     def addCheckCell(self, row: int, column: int, isConnect: bool, value: str = ''):
         item = checkItem(isConnect)
         self.setItem(row, column, item)

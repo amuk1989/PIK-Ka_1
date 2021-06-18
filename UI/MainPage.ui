@@ -1213,7 +1213,7 @@
           <number>0</number>
          </property>
          <property name="columnCount">
-          <number>3</number>
+          <number>5</number>
          </property>
          <attribute name="horizontalHeaderCascadingSectionResizes">
           <bool>true</bool>
@@ -1240,7 +1240,17 @@
          </column>
          <column>
           <property name="text">
+           <string>Модель</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
            <string>Адрес</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Порт</string>
           </property>
          </column>
          <column>

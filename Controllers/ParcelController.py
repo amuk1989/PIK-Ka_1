@@ -5,6 +5,7 @@ from models.singelton import singleton
 from typing import Any, List
 import serial
 
+
 @singleton
 class Parcel_controller(object):
     def __init__(self):
@@ -67,4 +68,4 @@ class Parcel_controller(object):
             ser.write(parcel_in_bytes)
             data = ser.read(2)
             print(int.from_bytes(data, 'big'))
-            #send_telegram(str(int.from_bytes(data, 'big')))
+            # send_telegram(str(int.from_bytes(data, 'big')))

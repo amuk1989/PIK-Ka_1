@@ -32,7 +32,7 @@ class Inicilizer():
         self.window = WindowInicilizer(mainWindow)
         self.options = WindowInicilizer(optionWindow)
         self.connects = WindowInicilizer(connectsWindow)
-        self.message = QMessageBox()
+        #self.message = QMessageBox()
 
         self.connectGuiController = GUIController(connectsWindow.connectionTable)
         self.mainWinConnectGuiController = GUIController(mainWindow.tableWidget)
@@ -138,12 +138,13 @@ class Inicilizer():
         self.connectGuiController.table_show()
 
     def add_device_button(self):
-        result = self.meter.add_device(connectsWindow.VISAaddresEdit.text())
-        if result != 'Success':
-            self.message.setWindowTitle('Ошибка')
-            self.message.setText(result)
-            self.message.setIcon(QMessageBox.Critical)
-            self.message.show()
+        pass
+        #result = self.meter.add_device(connectsWindow.VISAaddresEdit.text())
+        #if result != 'Success':
+        #    self.message.setWindowTitle('Ошибка')
+        #    self.message.setText(result)
+        #    self.message.setIcon(QMessageBox.Critical)
+        #    self.message.show()
 
     def set_time(self,value: float):
         self.time_value = value

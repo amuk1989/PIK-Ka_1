@@ -1,6 +1,7 @@
 from models.AbstractParcel import AbstractParcelObserver, AbstractParcel
 from models.singelton import singleton
 
+
 @singleton
 class GUIController(AbstractParcelObserver):
     def __init__(self):

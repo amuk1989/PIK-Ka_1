@@ -5,6 +5,7 @@ from Controllers.AbstractHandler import AbstractHandler
 from typing import Any, List
 from models.singelton import singleton
 
+
 @singleton
 class inputSignalController(AbstractHandler):
 

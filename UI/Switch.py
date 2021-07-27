@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel
 class QSwitch(QWidget):
     __img_r = 'resurces/slider.png'
     __img_l = 'resurces/slider_l.png'
-    __size = QSize(69, 45)
+    __size = QSize(45, 45)
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.lbl = QLabel(self)

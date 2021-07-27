@@ -2,21 +2,23 @@ from __future__ import annotations
 
 import threading
 from typing import List
+
+from Enums import DeviceName
 from Meters.AbstractDevices import AbstractObserver
 from Meters.Drivers.AbstractDriver import AbstractDriver
 
 
 class Device(object):
-    _observers: List[AbstractObserver] = []
+
 
     # region properties
-    def __get_name(self):
-        return self._name
+    #ef __get_name(self) -> DeviceName:
+    #    return self._name
 
-    def __set_name(self, value):
-        self._name = value
+    #def __set_name(self, value: DeviceName):
+    #    self._name = value
 
-    name = property(__get_name, __set_name, doc='Driver name')
+    #name = property(__get_name, __set_name, doc='Driver name')
 
     def __get_model(self):
         return self._model
@@ -53,12 +55,17 @@ class Device(object):
     # endregion
 
     def __init__(self, driver: AbstractDriver, ip: str = 'localhost', port: str = '5025'):
+        self._observers: List[AbstractObserver] = []
         self.driver = driver
         self.ip = ip
         self.port = port
-        self.name = str(driver)
+        self.name = driver.name
         self.model = ''
         self.isConnect = False
+        self.__measure_thread = threading.Thread(target=self.driver.start, daemon=True)
+
+    def __str__(self):
+        return str(self.driver)
 
     # region methods
     def connect(self, state: bool):
@@ -69,7 +76,6 @@ class Device(object):
                 if result == 'Success':
                     self.isConnect = state
                     self.model = self.driver.get_model()
-                    self.start()
                     print(f'{self.name} connected')
             else:
                 self.stop()
@@ -80,11 +86,13 @@ class Device(object):
         return result
 
     def start(self):
-        self.__measure_thread = threading.Thread(target=self.driver.open, daemon=True)
+        self.driver.start_device()
         self.__measure_thread.start()
 
     def stop(self):
-        self.__measure_thread.join()
+        self.driver.is_measure_active = False
+        while self.__measure_thread.is_alive():
+            self.__measure_thread.join()
         self.driver.close()
 
     def attach(self, observer: AbstractObserver):
@@ -96,5 +104,5 @@ class Device(object):
     def notify(self):
         if len(self._observers) > 0:
             for observer in self._observers:
-                observer.update(self)
+                observer.update_from_device(self)
     # endregion

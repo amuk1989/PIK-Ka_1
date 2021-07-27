@@ -1,11 +1,13 @@
-from enum import Enum
+from enum import Enum, IntEnum
 
 
 class DriverStatus(Enum):
     Success = 1
     NoAnswer = 2
 
+
 class DeviceName(Enum):
-    SpectrumAnalizer = 0
-    Generator = 1
-    Osciloscope = 2
+    spectrum_analizer = 0
+    generator = 1
+    osciloscope = 2
+    combinedDevice = 3

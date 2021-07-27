@@ -14,10 +14,14 @@ class inputSignalController(AbstractHandler):
         self.COP_observer = COP_observer()
         self.input_signal = InputSignalModel()
         self.input_signal.attach(self.input_signal_observer)
-        self.input_signal.chance_programming.attach(self.COP_observer)
+        #self.input_signal.chance_programming.attach(self.COP_observer)
 
-    def set_signal(self):
-        self.input_signal.create_signal()
+    def set_signal(self, x_data: List[float], y_data: List[float]):
+        graph = {}
+
+        for x, y in zip(x_data, y_data):
+            graph[x] = y
+        self.input_signal.create_signal(graph)
 
     def add_marker(self, request: Any, marker) -> bool:
         if request == 'FRWidget':
@@ -48,3 +52,4 @@ class inputSignalController(AbstractHandler):
             return True
         else:
             return super().delete_marker(request, marker)
+

@@ -1,3 +1,6 @@
+import threading
+from threading import Lock
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from matplotlib.backend_bases import MouseButton
@@ -5,15 +8,13 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from models.MarkerModel import marker_model
 from typing import List
-from Controllers.ParcelController import Parcel_controller
-from Controllers.InputSignalController import inputSignalController
 from floatMethods import equal
+from Controllers.Client import Client
 import numpy as np
 import math
 
+
 class GraphicsWiget(QWidget):
-    input_signal_controller = inputSignalController()
-    parcel_controller = Parcel_controller()
     __markers_x: List[float]
     __markers_y: List[float]
     __markers_legend: List[str]
@@ -21,7 +22,8 @@ class GraphicsWiget(QWidget):
     _left_lim: float
 
     def __init__(self, parent=None):
-        self.input_signal_controller.set_next(self.parcel_controller)
+
+        self.client = Client()
 
         QWidget.__init__(self, parent)
 
@@ -30,6 +32,7 @@ class GraphicsWiget(QWidget):
         self.__markers_y = []
         self.__markers_legend = []
         self._right_lim: float = None
+        self.__lock = Lock()
 
         self.canvas = FigureCanvas(Figure())
         vertical_layout = QVBoxLayout()
@@ -43,10 +46,9 @@ class GraphicsWiget(QWidget):
         self.canvas.mpl_connect('motion_notify_event', self.mouse_move)
         self.canvas.mpl_connect('button_press_event', self.mouse_click)
         self.canvas.mpl_connect('scroll_event', self.mouse_scroll)
-        self.canvas.mpl_connect('key_release_event', self.on_press)
 
-    #@pyqtSlot()
-    def drawAmp(self, data: dict, legend_mask: str = 'Маркер №, X, Y', markers: marker_model = [], labels = ('_','_')):
+    def drawAmp(self, data: dict, legend_mask: str = 'Маркер №, X, Y', markers: List[marker_model] = [],
+                labels=('_', '_'), dropping_zoom: bool = False):
         flag = False
         self.mask = legend_mask.split(', ')
         self.__x_axis = list(data.keys())
@@ -55,12 +57,14 @@ class GraphicsWiget(QWidget):
         self.__x_labels, self.__y_labels = labels
 
         for i in range(0, len(markers)):
-            if not equal(self.__x_axis, markers[i].x, 2) or not equal(self.__y_axis, markers[i].y, 2):
+            if markers[i].x not in self.__x_axis:
                 markers[i] = self.find_marker(math.inf, markers[i].x)
                 flag = True
+            else:
+                markers[i].y = self.__y_axis[self.__x_axis.index(markers[i].x)]
 
         if flag:
-            self.input_signal_controller.insert_marker(self.objectName(), i, markers)
+            self.client.insert_marker(self.objectName(), 0, markers)
 
         self.__markers_y.clear()
         self.__markers_x.clear()
@@ -80,9 +84,13 @@ class GraphicsWiget(QWidget):
             self._right_lim = self.max_x
             self._left_lim = self.min_x
 
+        if dropping_zoom:
+            self.dropp_zoom()
+
         self.update()
 
     def update(self):
+        self.__lock.acquire()
         self.canvas.axes.clear()
         self.canvas.axes.plot(self.__x_axis, self.__y_axis, ls='-')
 
@@ -94,18 +102,20 @@ class GraphicsWiget(QWidget):
 
         self.canvas.axes.scatter(self.__markers_x, self.__markers_y)
 
-        for i in range(0,len(self.__markers_x)):
+        for i in range(0, len(self.__markers_x)):
             self.__marker_draw(self.__markers_x[i], self.__markers_y[i])
         self.canvas.axes.set_xlim(self._left_lim, self._right_lim)
         self.canvas.draw()
+        self.__lock.release()
 
-    #region events
-    def mouse_move(self,event):
+    # region events
+    def mouse_move(self, event):
         last_marker: marker_model
         x, y = event.x, event.y
         if event.inaxes:
             ax = event.inaxes  # the axes instance
-            self.__focus_marker = self.find_marker(1, event.xdata, event.ydata)
+            trap_size = abs(self.__x_axis[1]-self.__y_axis[0])/2
+            self.__focus_marker = self.find_marker(trap_size, event.xdata, event.ydata)
             self.update()
 
     def mouse_click(self, event):
@@ -114,22 +124,22 @@ class GraphicsWiget(QWidget):
             if event.button is MouseButton.LEFT:
                 ax = event.inaxes  # the axes instance
                 if self.__focus_marker != None:
-                    self.input_signal_controller.add_marker(self.objectName(),self.__focus_marker)
+                    self.client.add_marker(self.objectName(), self.__focus_marker)
             elif event.button is MouseButton.RIGHT:
                 pass
 
-    def mouse_scroll(self,event):
+    def mouse_scroll(self, event):
         if event.inaxes:
             x, y = event.xdata, event.ydata
-            left, right = self.size_canvas(x,y,self._right_lim,self.max_y,self._left_lim,self.min_y)
+            left, right = self.size_canvas(x, y, self._right_lim, self.max_y, self._left_lim, self.min_y)
 
             if self._left_lim >= self.min_x:
-                self._left_lim += event.step*left
+                self._left_lim += event.step * left
             else:
                 self._left_lim = self.min_x
 
             if self._right_lim <= self.max_x:
-                self._right_lim += event.step*right
+                self._right_lim += event.step * right
             else:
                 self._right_lim = self.max_x
 
@@ -137,12 +147,12 @@ class GraphicsWiget(QWidget):
 
     def on_press(self, event):
         print('press', event.key)
-        sys.stdout.flush()
+        # sys.stdout.flush()
         print('x')
         if event.key == ' ':
             print('x')
 
-    #endregion
+    # endregion
 
     def createContextMenu(self):
         self.setContextMenuPolicy(Qt.ActionsContextMenu)
@@ -164,9 +174,9 @@ class GraphicsWiget(QWidget):
 
     def delete_marker(self):
         if self.__focus_marker != None:
-            self.input_signal_controller.delete_marker(self.objectName(), self.__focus_marker)
+            self.client.delete_marker(self.objectName(), self.__focus_marker)
 
-    def find_marker(self, trap_size: float, x_pos:float,y_pos: float = None) -> marker_model:
+    def find_marker(self, trap_size: float, x_pos: float, y_pos: float = None) -> marker_model:
         marker = marker_model()
         distance: List[float] = []
 
@@ -190,7 +200,7 @@ class GraphicsWiget(QWidget):
 
         self.canvas.axes.annotate(f'{self.mask[0]} \n{self.mask[2]}:{round(marker_y, 2)}',
                                   xy=(self._left_lim, marker_y), xycoords='data',
-                                  xytext=(-60,-7), textcoords='offset points',
+                                  xytext=(-60, -7), textcoords='offset points',
                                   bbox=dict(boxstyle="round", fc="0.8"),
                                   arrowprops=dict(arrowstyle="-")
                                   )
@@ -199,14 +209,13 @@ class GraphicsWiget(QWidget):
                               color='black', dashes=[6, 4], linewidth=0.5)
 
         self.canvas.axes.annotate(f'{self.mask[0]} \n{self.mask[1]}:{round(marker_x, 2)}',
-                                    xy=(marker_x, self.min_y), xycoords='data',
-                                    xytext=(0, -25), textcoords='offset points',
-                                    bbox=dict(boxstyle="round", fc="0.8"),
-                                    arrowprops=dict(arrowstyle="-",
-                                    connectionstyle="angle,angleA=0,angleB=90,rad=10"))
+                                  xy=(marker_x, self.min_y), xycoords='data',
+                                  xytext=(0, -25), textcoords='offset points',
+                                  bbox=dict(boxstyle="round", fc="0.8"),
+                                  arrowprops=dict(arrowstyle="-",
+                                                  connectionstyle="angle,angleA=0,angleB=90,rad=10"))
 
-    def size_canvas(self,x_mouse: float,y_mouse: float, x_max:float, y_max:float, x_min:float, y_min:float):
-        right_x = (1/(x_max-x_min)) * (x_max - x_mouse)
-        left_x = (1/(x_max-x_min)) * (x_min - x_mouse)
+    def size_canvas(self, x_mouse: float, y_mouse: float, x_max: float, y_max: float, x_min: float, y_min: float):
+        right_x = (1 / (x_max - x_min)) * (x_max - x_mouse)
+        left_x = (1 / (x_max - x_min)) * (x_min - x_mouse)
         return left_x, right_x
-

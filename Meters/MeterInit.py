@@ -1,49 +1,62 @@
 from typing import List
-
 from PyQt5.QtWidgets import QMessageBox
-
 from Meters.Device import Device
 from Meters.AbstractDevices import AbstractObserver
 from models.singelton import singleton
 from Meters.Drivers.AbstractDriver import AbstractDriver
 from Meters.Drivers.DriversReg import DriversRegister
+from Controllers.GUIController import GUIController
+from Enums import DeviceName
 import pyvisa as visa
 
 
 @singleton
 class MeterInit:
+
     def __init__(self):
         self.__observers: List[AbstractObserver] = []
         self.rm = visa.ResourceManager()
-        self.devices: List[Device] = []
+        self.devices: dict = {}
         self.drivers_init()
+        gui_controller = GUIController()
+        self.attach(gui_controller)
 
     def drivers_init(self):
         drivers = DriversRegister().drivers
         for driver in drivers:
             self.add_device(driver)
+        #print(self.devices)
 
     def add_device(self, driver: AbstractDriver):
         try:
             device = Device(driver)
-            for observer in self.__observers:
-                device.attach(observer)
-            self.devices.append(device)
+            self.devices[device.name] = device
             device.notify()
         except BaseException:
             self.__error('Ошибка драйвера')
 
-    def update_model(self, i: int, state: bool, ip: str, port: str):
-        self.devices[i].port = port
-        self.devices[i].ip = ip
-        result = self.devices[i].connect(state)
+    def update_model(self, key: DeviceName, state: bool, ip: str, port: str):
+        self.devices[key].port = port
+        self.devices[key].ip = ip
+        result = self.devices[key].connect(state)
         if result != 'Success':
             self.__error(result)
 
     def attach(self, observer: AbstractObserver):
         self.__observers.append(observer)
-        for i in range(0, len(self.devices)):
-            self.devices[i].attach(observer)
+        for item in self.devices.values():
+            item.attach(observer)
+
+    def start_measure(self):
+        for device in self.devices.values():
+            device.start()
+
+    def min_range(self):
+        pass
+
+    def stop_measure(self):
+        for device in self.devices.values():
+            device.stop()
 
     def __error(self, message):
         self.message = QMessageBox()

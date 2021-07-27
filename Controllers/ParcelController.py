@@ -3,11 +3,12 @@ from models.Parcel_model import Parcel
 from models.ParcelObserver import ParcelObserver
 from models.singelton import singleton
 from typing import Any, List
+from Controllers.AbstractHandler import AbstractHandler
 import serial
 
 
 @singleton
-class Parcel_controller(object):
+class Parcel_controller(AbstractHandler):
     def __init__(self):
         self.parcel_observer = ParcelObserver()
         self.parcel = Parcel()
@@ -67,5 +68,4 @@ class Parcel_controller(object):
         for i in range(0, self.parcel.signal_count):
             ser.write(parcel_in_bytes)
             data = ser.read(2)
-            print(int.from_bytes(data, 'big'))
             # send_telegram(str(int.from_bytes(data, 'big')))

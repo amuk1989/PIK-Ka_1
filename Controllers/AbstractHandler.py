@@ -2,16 +2,20 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Optional
 
+
 class Handler(ABC):
     @abstractmethod
     def set_next(self, handler: Handler) -> Handler:
         pass
+
     @abstractmethod
     def add_marker(self, request) -> Optional[bool]:
         pass
+
     @abstractmethod
-    def insert_marker(self, request)  -> Optional[bool]:
+    def insert_marker(self, request) -> Optional[bool]:
         pass
+
 
 class AbstractHandler(Handler):
     _next_handler: Handler = None

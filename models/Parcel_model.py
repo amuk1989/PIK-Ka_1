@@ -37,6 +37,9 @@ class Parcel(AbstractParcel):
         self._name = 'Parcel'
         self.bit_parcel = bitarray()
 
+    def __str__(self):
+        return self._name
+
     def get_mask(self):
         return 'Маркер №, X, Y'
 
@@ -45,6 +48,7 @@ class Parcel(AbstractParcel):
 
     def get_parcel_count(self):
         return self.__parcel_count
+
     def set_parcel_count(self, value):
         self.__parcel_count = value
 
@@ -52,6 +56,7 @@ class Parcel(AbstractParcel):
 
     def get_power(self):
         return self.__max_power, self.__min_power, self.__step_power
+
     def set_power(self, max_value: float, min_value: float, step: float):
         self.__min_power = min_value
         self.__max_power = max_value

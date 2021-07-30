@@ -17,6 +17,22 @@ class AbstractDriver(ABC):
 
     name = property(_name_get, _name_set)
 
+    def _ip_get(self) -> str:
+        return self._ip
+
+    def _ip_set(self, value: str):
+        self._ip = value
+
+    ip = property(_ip_get, _ip_set)
+
+    def _port_get(self) -> str:
+        return self._port
+
+    def _port_set(self, value: str):
+        self._port = value
+
+    port = property(_port_get, _port_set)
+
     def _is_measure_active_get(self) -> bool:
         return self._is_measure_active
 
@@ -25,53 +41,6 @@ class AbstractDriver(ABC):
 
     is_measure_active = property(_is_measure_active_get, _is_measure_active_set)
 
-    def _measure_data_get(self) -> List[float]:
-        return self._measure_data
-
-    def _measure_data_set(self, value: List[float]):
-        self._measure_data = value
-
-    measure_data = property(_measure_data_get, _measure_data_set)
-
-    def _x_data_get(self) -> List[float]:
-        return self._x_data
-
-    def _x_data_set(self, value: List[float]):
-        self._x_data = value
-
-    x_data = property(_x_data_get, _x_data_set)
-
-    def __max_range_get(self) -> float:
-        return self._max_range
-
-    def __max_range_set(self, value: float):
-        self._max_range = value
-
-    max_range = property(__max_range_get, __max_range_set)
-
-    def __min_range_get(self) -> float:
-        return self._min_range
-
-    def __min_range_set(self, value: float):
-        self._min_range = value
-
-    min_range = property(__min_range_get, __min_range_set)
-
-    def _dots_count_range_get(self) -> int:
-        return self._dots_count_range
-
-    def _dots_count_range_set(self, value: int):
-        self._dots_count_range = value
-
-    dots_count_range = property(_dots_count_range_get, _dots_count_range_set)
-
-    def _span_get(self) -> float:
-        return self._span
-
-    def _span_set(self, value: float):
-        self._span = value
-
-    span_range = property(_span_get, _span_set)
     # endregion
 
     power: float = 0
@@ -86,14 +55,6 @@ class AbstractDriver(ABC):
         pass
 
     @abstractmethod
-    def min_range_set(self, value: float):
-        pass
-
-    @abstractmethod
-    def max_range_set(self, value: float):
-        pass
-
-    @abstractmethod
     def get_idn(self):
         pass
 
@@ -102,15 +63,7 @@ class AbstractDriver(ABC):
         pass
 
     @abstractmethod
-    def get_measure_data(self):
-        pass
-
-    @abstractmethod
     def start(self):
-        pass
-
-    @abstractmethod
-    def get_range(self):
         pass
 
     @abstractmethod
@@ -121,7 +74,7 @@ class AbstractDriver(ABC):
     def close(self):
         pass
 
-    def device_init(self, ip: str, port: str):
+    def connect(self, ip: str, port: str):
         return 'Драйвер не обнаружен'
 
     def get_model(self):

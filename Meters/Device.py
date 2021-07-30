@@ -1,24 +1,11 @@
 from __future__ import annotations
-
 import threading
 from typing import List
-
-from Enums import DeviceName
 from Meters.AbstractDevices import AbstractObserver
 from Meters.Drivers.AbstractDriver import AbstractDriver
 
 
 class Device(object):
-
-
-    # region properties
-    #ef __get_name(self) -> DeviceName:
-    #    return self._name
-
-    #def __set_name(self, value: DeviceName):
-    #    self._name = value
-
-    #name = property(__get_name, __set_name, doc='Driver name')
 
     def __get_model(self):
         return self._model
@@ -72,11 +59,11 @@ class Device(object):
         result = 'Success'
         if self.isConnect != state:
             if state:
-                result = self.driver.device_init(self.ip, self.port)
+                result = self.driver.connect(self.ip, self.port)
                 if result == 'Success':
                     self.isConnect = state
                     self.model = self.driver.get_model()
-                    print(f'{self.name} connected')
+                    print(f'{self.model} connected')
             else:
                 self.stop()
                 self.isConnect = state

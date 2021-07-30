@@ -1,6 +1,4 @@
-import time
 from threading import Lock
-
 from Controllers.InputSignalController import inputSignalController
 from Meters.Drivers.AbstractDriver import AbstractDriver
 from Enums import DeviceName
@@ -32,14 +30,14 @@ class SK4MDriver(AbstractDriver):
         self._model: str = ''
         self.name = DeviceName.spectrum_analizer
         self.input_signal_controller = inputSignalController()
-        self._measure_data = []
+        self.measure_data = []
         self.__lock = Lock()
 
     def __str__(self):
         return 'Анализатор спектра СК4М'
 
     # region methods
-    def device_init(self, ip: str, port: str):
+    def connect(self, ip: str, port: str):
         visa_address = f'TCPIP::{ip}::{port}::SOCKET'
         rm = visa.ResourceManager()
         try:
@@ -60,7 +58,7 @@ class SK4MDriver(AbstractDriver):
         return idn
 
     def get_range(self):
-        self.min_range = float(self.query('SENS:FREQ:STAR?')) / 1e9#self.device.query(f'SENS:FREQ:STAR?')) / 1e9
+        self.min_range = float(self.query('SENS:FREQ:STAR?')) / 1e9
         self.max_range = float(self.query('SENS:FREQ:STOP?')) / 1e9
         try:
             self.span_range = float(self.device.query(f'SENS:F REQ:SPAN?')) / 1e9
@@ -72,7 +70,7 @@ class SK4MDriver(AbstractDriver):
             self.x_data.append(self.min_range + i * (self.span_range / self.dots_count_range))
 
     def start_device(self):
-        self.write('CALC:PAR:DEF "PIK_Ka_trace", POWer')#self.device.write('CALC:PAR:DEF "PIK_Ka_trace", POWer', termination='\n')
+        self.write('CALC:PAR:DEF "PIK_Ka_trace", POWer')
         self.write('CALC:PAR:SEL "PIK_Ka_trace"')
         self.write('INIT:CONT ON')
         self.write('INIT')
@@ -80,7 +78,7 @@ class SK4MDriver(AbstractDriver):
     def get_measure_data(self):
         string_data: str = ''
         while True:
-            string_data: str = self.query('CALC:DATA? FDATA')#self.device.query('CALC:DATA? FDATA')
+            string_data: str = self.query('CALC:DATA? FDATA')
             if string_data != '':
                 break
         string_list_data = string_data.split(',')

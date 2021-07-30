@@ -2,6 +2,8 @@ from typing import List
 from PyQt5.QtWidgets import QMessageBox
 from Meters.Device import Device
 from Meters.AbstractDevices import AbstractObserver
+from Meters.Drivers.G7M50Driver import G7M50Driver
+from Meters.Drivers.SK4MDriver import SK4MDriver
 from models.singelton import singleton
 from Meters.Drivers.AbstractDriver import AbstractDriver
 from Meters.Drivers.DriversReg import DriversRegister
@@ -22,9 +24,11 @@ class MeterInit:
         self.attach(gui_controller)
 
     def drivers_init(self):
-        drivers = DriversRegister().drivers
-        for driver in drivers:
-            self.add_device(driver)
+        #drivers = DriversRegister().drivers
+        #for driver in drivers:
+        #    self.add_device(driver)
+        self.devices[DeviceName.spectrum_analizer] = Device(SK4MDriver())
+        self.devices[DeviceName.generator] = Device(G7M50Driver())
         #print(self.devices)
 
     def add_device(self, driver: AbstractDriver):
@@ -50,9 +54,6 @@ class MeterInit:
     def start_measure(self):
         for device in self.devices.values():
             device.start()
-
-    def min_range(self):
-        pass
 
     def stop_measure(self):
         for device in self.devices.values():

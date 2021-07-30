@@ -14,6 +14,7 @@ class GUIController(AbstractParcelObserver, AbstractObserver):
             optionWindow.timeEdit.setValue(subject.detonation_time)
             mainWindow.modeBox.setCurrentIndex(subject.parcel_mode)
             optionWindow.modeBox.setCurrentIndex(subject.parcel_mode)
+            mainWindow.parcelCountBox.setValue(subject.signal_count)
 
     def update_from_device(self, subject: Device):
         from UI.WindowInicilizer import mainWindow
@@ -22,5 +23,7 @@ class GUIController(AbstractParcelObserver, AbstractObserver):
             mainWindow.frequencyMaxBox.setValue(subject.driver.max_range)
             mainWindow.dotsCountBox.setValue(subject.driver.dots_count_range)
 
-        if subject.name == Enums.DeviceName.generator:
-            mainWindow.earthPowerLabel.setText(subject.driver.power)
+    def update_from_generator(self, power: float, frequency: float):
+        from UI.WindowInicilizer import mainWindow
+        mainWindow.earthPowerLabel.setText(str(power))
+        mainWindow.signalFrequencyLabel.setText(str(frequency))

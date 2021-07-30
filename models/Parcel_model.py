@@ -1,6 +1,6 @@
 import math
 from bitarray import bitarray, util
-from models.AbstractParcel import AbstractParcelObserver,AbstractParcel
+from models.AbstractParcel import AbstractParcelObserver, AbstractParcel
 from typing import List
 from models.singelton import singleton
 from models.MarkerModel import marker_model
@@ -10,6 +10,7 @@ parcel_modes = [
     'Режим контактного датчика',
     'Режим самоликвидации',
 ]
+
 
 @singleton
 class Parcel(AbstractParcel):
@@ -25,8 +26,8 @@ class Parcel(AbstractParcel):
     __step_power: float
     _name = ''
 
-    def __init__(self, time:float = 1, mode: int = 0, duration: int = 200, count: int = 1,
-                 max_power = 1.5, min_power = 0.1, step = 0.1):
+    def __init__(self, time: float = 1, mode: int = 0, duration: int = 9600, count: int = 10000,
+                 max_power=1.5, min_power=0.1, step=0.1):
         self.__detonation_time: float = time
         self._parcel_mode: int = mode
         self.__signal_duration: int = duration
@@ -36,6 +37,7 @@ class Parcel(AbstractParcel):
         self.__step_power: float = step
         self._name = 'Parcel'
         self.bit_parcel = bitarray()
+        self.uart_bits = {}
 
     def __str__(self):
         return self._name
@@ -77,45 +79,38 @@ class Parcel(AbstractParcel):
         return self.__detonation_time
 
     @parcel_mode.setter
-    def parcel_mode(self,value):
+    def parcel_mode(self, value):
         self._parcel_mode = value
         if parcel_modes[value] == 'Режим самоликвидации':
             self.detonation_time = 4095
 
     @signal_duration.setter
-    def signal_duration(self,value):
+    def signal_duration(self, value):
         self.__signal_duration = value
 
     @detonation_time.setter
-    def detonation_time(self,value):
+    def detonation_time(self, value):
         self.__detonation_time = value
 
-    def create_signal(self, symbol_rate = 9600,bytes_count = 2):
+    def create_signal(self, bytes_count=3, control_bits=8):
         time = int(self.__detonation_time)
 
-        signal_rate = int((1/symbol_rate)*(10**6))
+        signal_rate = int((1 / self.__signal_duration) * (10 ** 6))
         self.bit_parcel.clear()
-        self.bit_parcel = util.int2ba(time, length=bytes_count * 8 - 4)
-        for i in range(0, 4):
-            self.bit_parcel.insert(i, (self.bit_parcel[i] ^ self.bit_parcel[i + 4] ^ self.bit_parcel[i + 8]))
+        self.bit_parcel = util.int2ba(time, length=bytes_count * 8)
 
-        uart_bits = {}
-
-        uart_bits[0] = 0
+        self.uart_bits[0] = 0
         for i in range(0, bytes_count * 8):
-            if i < 8:
-                uart_bits[i+1] = self.bit_parcel[i]
-            elif i == 8:
-                uart_bits[i+1] = 1
-                uart_bits[i+2] = 0
-                uart_bits[i+3] = self.bit_parcel[i]
-            elif i < 16:
-                uart_bits[i+3] = self.bit_parcel[i]
-        uart_bits[19] = 1
+            if i < control_bits:
+                self.uart_bits[i + 1] = self.bit_parcel[i + control_bits] ^ self.bit_parcel[i + control_bits * 2]
+            else:
+                self.uart_bits[i + 1] = self.bit_parcel[i]
+
+        self.uart_bits[bytes_count * 8 + 1] = 1
 
         value = {}
-        for i in range(0, signal_rate * len(uart_bits)):
-            value[i] = uart_bits[math.floor(i/signal_rate)]
+        for i in range(0, signal_rate * len(self.uart_bits)):
+            value[i] = (self.uart_bits[math.floor(i / signal_rate)] * 24) - 12
         self.set_graph(value)
         self.notify()
 

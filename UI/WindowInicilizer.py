@@ -90,6 +90,8 @@ class Inicilizer():
         mainWindow.dotsCountBox.valueChanged.connect(
                                             self.meter.devices[DeviceName.spectrum_analizer].driver.dots_count_range_set
                                             )
+        mainWindow.parcelCountLabel.setText(mainWindow.parcelCountBox.text())
+        mainWindow.parcelCountBox.valueChanged.connect(self.parcel_count_edit)
         self.window.destroyed.connect(self.meter.stop_measure)
         # endregion
 
@@ -127,10 +129,14 @@ class Inicilizer():
 
     def startButton(self):
         self.meter.start_measure()
-        self.parcel_controller.send()
+        #self.parcel_controller.send()
 
     def timeEdit(self, value):
         self.set_time(value)
+        self.okButton()
+
+    def parcel_count_edit(self, value: int):
+        #self.parcel_count_value(value)
         self.okButton()
 
     def filePathButton(self):

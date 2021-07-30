@@ -26,7 +26,7 @@ class TableController(AbstractObserver):
     def edit_data(self):
         for key in self.devices.keys():
             try:
-                print(key)
+                print(f'key {self.__table.item(key.value, 3).text()}')
                 self.meter.update_model(key, self.__table.item(key.value, 4).checkState(),
                                         self.__table.item(key.value, 2).text(),
                                         self.__table.item(key.value, 3).text())

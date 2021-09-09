@@ -51,8 +51,10 @@ class Inicilizer():
         optionWindow.maxPowerBox.valueChanged.connect(self.set_max_power)
         optionWindow.stepPowerBox.valueChanged.connect(self.set_step_power)
         optionWindow.timeEdit.valueChanged.connect(self.set_time)
+
+        optionWindow.parcelCountBox.value = self.parcel.signal_count
         optionWindow.parcelCountBox.valueChanged.connect(self.set_parcel_count)
-        optionWindow.parcelCountBox.setValue(self.parcel.signal_count)
+
         optionWindow.OkButton.clicked.connect(self.optionOkButton)
         optionWindow.filePathButton.clicked.connect(self.filePathButton)
 
@@ -77,6 +79,8 @@ class Inicilizer():
         mainWindow.optionsButton_1.clicked.connect(self.options.show)
         mainWindow.startButton.clicked.connect(self.startButton)
         mainWindow.startButton_2.clicked.connect(self.startButton)
+        mainWindow.stopButton.clicked.connect(self.stopButton)
+        mainWindow.safeReportButton.clicked.connect(self.meter.save_report)
 
         mainWindow.modeBox.addItems(parcel_modes)
         mainWindow.timeEdit.valueChanged.connect(self.timeEdit)
@@ -92,11 +96,19 @@ class Inicilizer():
                                             )
         mainWindow.parcelCountLabel.setText(mainWindow.parcelCountBox.text())
         mainWindow.parcelCountBox.valueChanged.connect(self.parcel_count_edit)
+        mainWindow.maxPowerBox.valueChanged.connect(self.set_max_power)
+        mainWindow.minPowerBox.valueChanged.connect(self.set_min_power)
+        mainWindow.stepPowerBox.valueChanged.connect(self.set_step_power)
+        mainWindow.frequencyBox.setValue(self.parcel.frequency)
+        mainWindow.frequencyBox.valueChanged.connect(self.set_frequency)
         self.window.destroyed.connect(self.meter.stop_measure)
         # endregion
 
         self.okButton()
         app.exec_()
+
+    def set_frequency(self, value: float):
+        self.parcel.frequency = value
 
     def set_min_frequency(self, value: float):
         if value < mainWindow.frequencyMaxBox.value():
@@ -129,14 +141,21 @@ class Inicilizer():
 
     def startButton(self):
         self.meter.start_measure()
+        mainWindow.stopButton.setEnabled(True)
+        mainWindow.startButton.setEnabled(False)
         #self.parcel_controller.send()
+
+    def stopButton(self):
+        self.meter.stop_measure()
+        mainWindow.startButton.setEnabled(True)
+        mainWindow.stopButton.setEnabled(False)
 
     def timeEdit(self, value):
         self.set_time(value)
         self.okButton()
 
     def parcel_count_edit(self, value: int):
-        #self.parcel_count_value(value)
+        self.parcel_count_value = value
         self.okButton()
 
     def filePathButton(self):
@@ -164,13 +183,16 @@ class Inicilizer():
         self.time_value = value
 
     def set_max_power(self, value: float):
-        self.max_power_value = value
+        self.max_power_value = round(value, 1)
+        self.parcel.set_power(self.max_power_value, self.min_power_value, self.step_power_value)
 
     def set_min_power(self, value: float):
-        self.min_power_value = value
+        self.min_power_value = round(value, 1)
+        self.parcel.set_power(self.max_power_value, self.min_power_value, self.step_power_value)
 
     def set_step_power(self, value: float):
-        self.step_power_value = value
+        self.step_power_value = round(value, 1)
+        self.parcel.set_power(self.max_power_value, self.min_power_value, self.step_power_value)
 
     def set_parcel_count(self, value: int):
         self.parcel_count_value = value

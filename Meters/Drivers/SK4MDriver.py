@@ -1,3 +1,4 @@
+import threading
 from threading import Lock
 from Controllers.InputSignalController import inputSignalController
 from Meters.Drivers.AbstractDriver import AbstractDriver
@@ -90,6 +91,7 @@ class SK4MDriver(AbstractDriver):
         return False
 
     def start(self):
+        self.start_device()
         self.is_measure_active = True
         while self.is_measure_active:
             if self.get_measure_data() and len(self.x_data) == len(self.measure_data):

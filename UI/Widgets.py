@@ -1,6 +1,4 @@
-import threading
 from threading import Lock
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from matplotlib.backend_bases import MouseButton
@@ -8,7 +6,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from models.MarkerModel import marker_model
 from typing import List
-from floatMethods import equal
 from Controllers.Client import Client
 import numpy as np
 import math
@@ -147,7 +144,6 @@ class GraphicsWiget(QWidget):
 
     def on_press(self, event):
         print('press', event.key)
-        # sys.stdout.flush()
         print('x')
         if event.key == ' ':
             print('x')
@@ -193,6 +189,9 @@ class GraphicsWiget(QWidget):
             return marker
         else:
             return None
+
+    def safe_as_png(self, file_path: str):
+        self.canvas.print_png(file_path)
 
     def __marker_draw(self, marker_x: float, marker_y: float):
         self.canvas.axes.plot([marker_x, self._left_lim], [marker_y, marker_y],

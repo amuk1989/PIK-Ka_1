@@ -49,7 +49,6 @@ class Device(object):
         self.name = driver.name
         self.model = ''
         self.isConnect = False
-        self.__measure_thread = threading.Thread(target=self.driver.start, daemon=True)
 
     def __str__(self):
         return str(self.driver)
@@ -73,14 +72,15 @@ class Device(object):
         return result
 
     def start(self):
-        self.driver.start_device()
+        self.__measure_thread = threading.Thread(target=self.driver.start, daemon=True)
+        self.driver.is_measure_active = True
         self.__measure_thread.start()
 
     def stop(self):
         self.driver.is_measure_active = False
         while self.__measure_thread.is_alive():
             self.__measure_thread.join()
-        self.driver.close()
+        self.driver.stop()
 
     def attach(self, observer: AbstractObserver):
         self._observers.append(observer)
@@ -92,4 +92,5 @@ class Device(object):
         if len(self._observers) > 0:
             for observer in self._observers:
                 observer.update_from_device(self)
+
     # endregion

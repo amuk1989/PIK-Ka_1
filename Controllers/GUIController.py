@@ -27,3 +27,8 @@ class GUIController(AbstractParcelObserver, AbstractObserver):
         from UI.WindowInicilizer import mainWindow
         mainWindow.earthPowerLabel.setText(str(power))
         mainWindow.signalFrequencyLabel.setText(str(frequency))
+
+    def stop_measuer(self):
+        from UI.WindowInicilizer import mainWindow
+        mainWindow.stopButton.setEnabled(False)
+        mainWindow.startButton.setEnabled(True)

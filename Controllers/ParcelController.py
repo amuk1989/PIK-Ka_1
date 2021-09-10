@@ -4,7 +4,6 @@ from models.ParcelObserver import ParcelObserver
 from models.singelton import singleton
 from typing import Any, List
 from Controllers.AbstractHandler import AbstractHandler
-import serial
 
 
 @singleton
@@ -63,9 +62,10 @@ class Parcel_controller(AbstractHandler):
             return True
 
     def send(self):
-        parcel_in_bytes = self.parcel.bit_parcel.tobytes()
-        ser = serial.serial_for_url('loop://', timeout=1)
-        for i in range(0, self.parcel.signal_count):
-            ser.write(parcel_in_bytes)
-            data = ser.read(2)
-            # send_telegram(str(int.from_bytes(data, 'big')))
+        pass
+        # parcel_in_bytes = self.parcel.bit_parcel.tobytes()
+        # ser = serial.serial_for_url('loop://', timeout=1)
+        # for i in range(0, self.parcel.signal_count):
+        #     ser.write(parcel_in_bytes)
+        #     data = ser.read(2)
+        #     # send_telegram(str(int.from_bytes(data, 'big')))

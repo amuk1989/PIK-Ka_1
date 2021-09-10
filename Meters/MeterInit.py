@@ -66,8 +66,8 @@ class MeterInit:
 
     def save_report(self):
         save_file_dialog = QFileDialog.getSaveFileName(filter='*.pdf', directory=f'/report_{str(date.today())}')[0]
+        save_file_dialog = save_file_dialog.encode('utf-8', 'ignore')
         if save_file_dialog != '':
-            print(save_file_dialog)
             left = 20 * mm
             from models.Parcel_model import Parcel
             parcel = Parcel()

@@ -124,15 +124,6 @@ class Inicilizer():
                                                optionWindow.pulseDurationBox.currentText(), self.max_power_value,
                                                self.min_power_value, self.step_power_value, self.parcel_count_value)
             self.options.close()
-        elif optionWindow.filePathEdit.text() != '':
-            file = optionWindow.filePathEdit.text()
-            f = open(file, 'r')
-            data = f.read()
-            self.parcel_controller.edit_parcel_from_file(data)
-            optionWindow.typeParcelSwitch.state = False
-            self.options.close()
-        else:
-            print('error')
 
     def okButton(self):
         self.parcel_controller.edit_parcel(mainWindow.modeBox.currentIndex(), self.time_value,
@@ -143,7 +134,6 @@ class Inicilizer():
         self.meter.start_measure()
         mainWindow.stopButton.setEnabled(True)
         mainWindow.startButton.setEnabled(False)
-        #self.parcel_controller.send()
 
     def stopButton(self):
         self.meter.stop_measure()

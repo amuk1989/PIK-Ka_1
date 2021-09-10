@@ -1,7 +1,6 @@
 import math
 from threading import Lock
 from time import sleep
-
 import numpy as np
 from Enums import DeviceName
 from Meters.Drivers.AbstractDriver import AbstractDriver, visa
@@ -12,7 +11,6 @@ from Controllers.GUIController import GUIController
 class G7M50Driver(AbstractDriver):
     def __init__(self):
         self.frequency: float = 0
-        #self.power = self.__power_calculate(40)
         self.is_measure_active = False
         self.parcel = Parcel()
         self.name = DeviceName.generator
@@ -44,7 +42,6 @@ class G7M50Driver(AbstractDriver):
 
     def start(self):
         self.frequency = self.parcel.frequency
-        count = self.parcel.signal_count
         self.power = self.power[0]
         distance = 40
         self.start_device()

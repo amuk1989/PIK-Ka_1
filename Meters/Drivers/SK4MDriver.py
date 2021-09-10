@@ -48,7 +48,7 @@ class SK4MDriver(AbstractDriver):
             self._model = str(idn).split(', ')[1]
             self.write('CALCulate:PARameter:DELete:ALL')
             self.write('*CLS')
-            self.write('FORM ASCii')
+            self.write('FORM utf-8')
             self.get_range()
             return 'Success'
         except BaseException:
